@@ -6,9 +6,7 @@
   <title>KIPP SMILEY</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -22,7 +20,6 @@
       padding: 20px 12px;
     }
 
-    /* Hamburger-Menü */
     .hamburger {
       position: absolute;
       top: 14px;
@@ -60,7 +57,6 @@
       font-weight: 800;
     }
 
-    /* Kartenfeld */
     .card-wrapper {
       display: flex;
       justify-content: center;
@@ -74,7 +70,7 @@
       max-height: 380px;
       background: linear-gradient(145deg, #1f2838, #151b28);
       border-radius: 28px;
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.6);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -87,7 +83,7 @@
       background: #0f172a;
       border-radius: 22px;
       display: flex;
-      flex-direction: column;       /* oben Kombi, darunter Text */
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 18px;
@@ -95,9 +91,8 @@
       text-align: center;
     }
 
-    /* Reihe mit Hand + Gesicht */
     .combo-row {
-      display: none;                /* am Anfang noch versteckt */
+      display: none;
       flex-direction: row;
       align-items: center;
       justify-content: center;
@@ -116,13 +111,32 @@
       filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
     }
 
+    /* Starttext styling – größer, fetter */
     .card-message {
-      font-size: 0.95rem;
-      opacity: 0.9;
-      padding: 0 4px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      opacity: 0.95;
+      color: #f8fafc;
+      line-height: 1.35;
+      padding: 0 6px;
     }
 
-    /* Buttons erkippt / aufgelegt */
+    /* Gewinntext groß, gelb, schwarz umrandet */
+    .win-title {
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: #facc15;
+      text-shadow: 2px 2px 0 black, -2px 2px 0 black,
+                   2px -2px 0 black, -2px -2px 0 black;
+      margin-top: -10px;
+    }
+
+    .win-sub {
+      font-size: 1rem;
+      margin-top: 4px;
+      opacity: 0.9;
+    }
+
     .buttons-row {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -136,35 +150,18 @@
       padding: 14px 10px;
       font-size: 1.1rem;
       font-weight: 800;
-      letter-spacing: 0.02em;
       cursor: pointer;
-      transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.12s ease;
     }
 
-    .btn-primary {
-      background: #10b981;
-      color: #022c22;
-      box-shadow: 0 8px 18px rgba(16, 185, 129, 0.4);
-    }
+    .btn-primary { background: #10b981; color: #022c22; }
+    .btn-secondary { background: #f59e0b; color: #451a03; }
 
-    .btn-secondary {
-      background: #f59e0b;
-      color: #451a03;
-      box-shadow: 0 8px 18px rgba(245, 158, 11, 0.4);
-    }
-
-    .btn:active {
-      transform: translateY(1px) scale(0.98);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-    }
-
-    /* Punkte */
     .score-area {
       margin-top: 6px;
       padding: 20px 14px 22px;
       background: #0b1220;
       border-radius: 18px;
-      border: 1px solid rgba(148, 163, 184, 0.3);
+      border: 1px solid rgba(148,163,184,0.3);
       text-align: center;
     }
 
@@ -175,13 +172,6 @@
       margin-bottom: 6px;
     }
 
-    .score-small-sub {
-      font-size: 0.9rem;
-      opacity: 0.8;
-      margin-top: 4px;
-    }
-
-    /* Start-/Schließen-Buttons unter der Punkte-Angabe */
     .start-row {
       margin-top: 10px;
       display: flex;
@@ -199,15 +189,8 @@
       cursor: pointer;
     }
 
-    .start-btn-start {
-      background: #22c55e;
-      color: #022c22;
-    }
-
-    .start-btn-close {
-      background: #ef4444;
-      color: #fff;
-    }
+    .start-btn-start { background: #22c55e; color: #022c22; }
+    .start-btn-close { background: #ef4444; color: white; }
 
   </style>
 </head>
@@ -220,7 +203,7 @@
     <div class="menu-overlay" id="menuOverlay">
       <div>
         <p><strong>MENÜ</strong></p>
-        <p>Hier kannst du später Video &amp; Beschreibung einfügen.</p>
+        <p>Hier kannst du später Video & Beschreibung einfügen.</p>
         <button onclick="document.getElementById('menuOverlay').style.display='none'"
         class="reset-btn">Schließen</button>
       </div>
@@ -232,16 +215,14 @@
       <div class="card">
         <div class="card-inner">
 
-          <!-- Kombi-Reihe: Hand LINKS, Gesicht RECHTS -->
           <div class="combo-row" id="comboRow">
             <div class="smiley-hand" id="smileyHand">🖐</div>
             <div class="smiley-face" id="smileyFace">😀</div>
           </div>
 
-          <!-- Text im Feld (Start-Text bzw. Gewinn-Text) -->
           <div class="card-message" id="cardMessage">
-            Spielregeln? Dann auf Menü oben rechts.<br />
-            Oder mit Start-Button gleich beginnen?
+            Spielregeln? Dann auf Menü oben rechts.<br>
+            Oder mit Start-Button gleich beginnen.
           </div>
 
         </div>
@@ -255,25 +236,15 @@
 
     <div class="score-area">
       <div class="score-big" id="pointsDisplay">0</div>
-      <div class="score-small-sub" id="roundInfo">Runde läuft …</div>
-
-      <!-- Start / schließen – immer sichtbar -->
-      <div class="start-row" id="startRow">
+      <div class="start-row">
         <button class="start-btn start-btn-start" id="btnStart">Start</button>
         <button class="start-btn start-btn-close" id="btnClose">schließen</button>
       </div>
     </div>
-
   </div>
 
   <script>
-    // 12 Gesichter – an deine Holz-Smileys angelehnt
-    const faces = [
-      "😉","😵‍💫","😁","😊","😠","😂","😍",
-      "😲","😚","🙄","😬","🙂"
-    ];
-
-    // Deine 4 Handgesten
+    const faces = ["😉","😵‍💫","😁","😊","😠","😂","😍","😲","😚","🙄","😬","🙂"];
     const hands = ["🖐","🤞","🤟","👊"];
 
     let points = 0;
@@ -285,125 +256,77 @@
     const comboRow = document.getElementById("comboRow");
     const cardMessage = document.getElementById("cardMessage");
     const pointsDisplay = document.getElementById("pointsDisplay");
-    const roundInfo = document.getElementById("roundInfo");
     const btnStart = document.getElementById("btnStart");
-    const btnClose = document.getElementById("btnClose");
 
-    document.getElementById("menuBtn").onclick = () => {
+    document.getElementById("menuBtn").onclick = () =>
       document.getElementById("menuOverlay").style.display = "flex";
-    };
 
-    function randomInt(max) {
-      return Math.floor(Math.random() * max);
-    }
+    function randomInt(max){ return Math.floor(Math.random()*max); }
 
-    // Neue zufällige Smiley-Hand-Kombi
-    function newCombo() {
-      if (!gameStarted || gameWon) return;
-
-      const f = faces[randomInt(faces.length)];
-      const h = hands[randomInt(hands.length)];
-
-      faceEl.textContent = f;
-      faceEl.style.fontSize = "5.2rem";   // falls vom Gewinnscreen größer war, zurücksetzen
-      handEl.textContent = h;
-      handEl.style.display = "inline-block";
+    function newCombo(){
+      if(!gameStarted || gameWon) return;
+      faceEl.textContent = faces[randomInt(faces.length)];
+      handEl.textContent = hands[randomInt(hands.length)];
 
       comboRow.style.display = "flex";
-      cardMessage.textContent = "";       // kein Text während normalem Spiel
+      cardMessage.innerHTML = "";
     }
 
-    function updateScoreDisplay() {
-      pointsDisplay.textContent = points;
-
-      if (gameWon) {
-        roundInfo.textContent = "Spiel gewonnen!";
-      } else {
-        roundInfo.textContent = "Runde läuft …";
-      }
-    }
-
-    function showWinScreen() {
+    function showWinScreen(){
       gameWon = true;
-      // Schlaukopf-Smiley groß anzeigen, Hand ausblenden
       comboRow.style.display = "flex";
       handEl.style.display = "none";
+
       faceEl.textContent = "🤓";
       faceEl.style.fontSize = "6rem";
-      cardMessage.textContent = "Gewonnen. 15-Punktegrenze erfolgreich überschritten.";
-      updateScoreDisplay();
-    }
 
-    function handleKipp(pointsToAdd) {
-      if (!gameStarted || gameWon) {
-        return;
-      }
-
-      points += pointsToAdd;
-
-      // Gewinnbedingung: 16 oder mehr Punkte
-      if (points >= 16 && !gameWon) {
-        showWinScreen();
-        return;
-      }
-
-      updateScoreDisplay();
-      newCombo();
-    }
-
-    // Spiel starten
-    function startGame() {
-      gameStarted = true;
-      gameWon = false;
-      points = 0;
-      btnStart.textContent = "Reset";
-      comboRow.style.display = "flex";
-      cardMessage.textContent = "";
-      handEl.style.display = "inline-block";
-      faceEl.style.fontSize = "5.2rem";
-      updateScoreDisplay();
-      newCombo();
-    }
-
-    // Spiel zurücksetzen in Anfangszustand
-    function resetGame() {
-      gameStarted = false;
-      gameWon = false;
-      points = 0;
-      btnStart.textContent = "Start";
-      comboRow.style.display = "none";
-      handEl.style.display = "inline-block";
-      faceEl.textContent = "😀";
-      faceEl.style.fontSize = "5.2rem";
       cardMessage.innerHTML =
-        "Spielregeln? Dann auf Menü oben rechts.<br />Oder mit Start-Button gleich beginnen?";
-      roundInfo.textContent = "Runde läuft …";
-      updateScoreDisplay();
+        `<div class="win-title">GEWONNEN</div>
+         <div class="win-sub">15-Punktegrenze erfolgreich überschritten.</div>`;
     }
 
-    // Start-Button: Start ↔ Reset
+    document.getElementById("btnOwn").onclick = () => {
+      if(!gameStarted || gameWon) return;
+      points += 3;
+      pointsDisplay.textContent = points;
+      if(points >= 16) return showWinScreen();
+      newCombo();
+    };
+
+    document.getElementById("btnOther").onclick = () => {
+      if(!gameStarted || gameWon) return;
+      points += 1;
+      pointsDisplay.textContent = points;
+      if(points >= 16) return showWinScreen();
+      newCombo();
+    };
+
     btnStart.onclick = () => {
-      if (!gameStarted) {
-        startGame();
+      if(!gameStarted){
+        gameStarted = true;
+        points = 0;
+        pointsDisplay.textContent = "0";
+        cardMessage.innerHTML = "";
+        comboRow.style.display = "flex";
+        newCombo();
+        btnStart.textContent = "Reset";
       } else {
-        resetGame();
+        gameWon = false;
+        points = 0;
+        pointsDisplay.textContent = "0";
+        handEl.style.display = "inline-block";
+        faceEl.style.fontSize = "5.2rem";
+        cardMessage.innerHTML = 
+          "Spielregeln? Dann auf Menü oben rechts.<br>Oder mit Start-Button gleich beginnen.";
+        comboRow.style.display = "none";
+        gameStarted = false;
+        btnStart.textContent = "Start";
       }
     };
 
-    // "schließen" – Nachfrage, dann ggf. Fenster schließen
-    btnClose.onclick = () => {
-      const really = window.confirm("App wirklich schließen?");
-      if (really) {
-        window.close(); // Im Browser meist blockiert, für echte App später anders lösen
-      }
+    document.getElementById("btnClose").onclick = () => {
+      if(window.confirm("App wirklich schließen?")) window.close();
     };
-
-    // Erkippt / Aufgelegt
-    document.getElementById("btnOwn").onclick = () => handleKipp(3);
-    document.getElementById("btnOther").onclick = () => handleKipp(1);
-
-    // Anfangszustand setzen
-    resetGame();
   </script>
 
 </body>
