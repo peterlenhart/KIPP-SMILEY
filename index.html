@@ -30,7 +30,7 @@
       z-index: 30;
     }
 
-    /* 📘 Neues Icon für Spielbeschreibung */
+    /* 📘 Icon für Spielbeschreibung */
     .info-icon {
       position: absolute;
       top: 62px;           /* unter dem Hamburger-Menü */
@@ -70,7 +70,7 @@
     /* Überschrift kleiner wie gewünscht */
     h1 {
       margin: 0 0 20px;
-      font-size: 1.9rem;     /* <— verkleinert */
+      font-size: 1.9rem;
       letter-spacing: 0.05em;
       font-weight: 800;
     }
@@ -108,6 +108,8 @@
       gap: 18px;
       padding: 10px;
       text-align: center;
+      overflow: hidden; /* wichtig, damit nur innen gescrollt wird */
+      position: relative;
     }
 
     .combo-row {
@@ -137,6 +139,37 @@
       color: #f8fafc;
       line-height: 1.35;
       padding: 0 6px;
+    }
+
+    /* Scrollbereich für Spielbeschreibung im Kombifeld */
+    .rules-container {
+      display: none;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      text-align: left;
+      padding: 8px 10px 4px;
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    .rules-text h2 {
+      font-size: 1.05rem;
+      margin: 0 0 4px;
+    }
+
+    .rules-text h3 {
+      font-size: 0.98rem;
+      margin: 10px 0 4px;
+    }
+
+    .rules-text p {
+      margin: 4px 0;
+    }
+
+    .rules-separator {
+      margin: 8px 0;
+      border-top: 1px solid rgba(148,163,184,0.4);
     }
 
     .win-title {
@@ -217,7 +250,7 @@
 
     <div class="hamburger" id="menuBtn">☰</div>
 
-    <!-- 📘 NEUES ICON: Spielbeschreibung -->
+    <!-- 📘 ICON: Spielbeschreibung -->
     <div class="info-icon" id="infoIcon">📘</div>
 
     <div class="menu-overlay" id="menuOverlay">
@@ -240,10 +273,117 @@
             <div class="smiley-face" id="smileyFace">😀</div>
           </div>
 
-          <!-- ⭐ STARTTEXT -->
+          <!-- Starttext -->
           <div class="card-message" id="cardMessage">
             Spielbeschreibung? Dann aufs Icon in der Ecke oben rechts klicken.<br>
             Gleich los spielen? Dann auf Start.
+          </div>
+
+          <!-- Scrollbare Spielbeschreibung im Kombifeld -->
+          <div class="rules-container" id="rulesContainer">
+            <div class="rules-text">
+              <h2>📘 SPIELBESCHREIBUNG – KIPP SMILEY</h2>
+
+              <div class="rules-separator"></div>
+
+              <h3>1. KIPP-Box vorbereiten</h3>
+              <p>Stellt die KIPP-Box in die Mitte des Tisches und legt die Kugel in das Loch des Boxbodens ein.</p>
+
+              <div class="rules-separator"></div>
+
+              <h3>2. Kartonrahmen auflegen</h3>
+              <p>Legt den Kartonrahmen mit den Smiley-Händen nach oben auf die umlaufende Auflagefläche der Box.<br>
+              Der Rahmen kann beliebig gedreht aufgelegt werden – die Ausrichtung spielt keine Rolle.</p>
+
+              <div class="rules-separator"></div>
+
+              <h3>3. Würfel einlegen</h3>
+              <p>Schaut euch jetzt den Würfel an: Eine Ecke des Würfels ist auffällig abgeschrägt.</p>
+              <p>Legt den Würfel mit dieser abgeschrägten Ecke an der Kugel anliegend in eine beliebige der vier Boxecken.</p>
+              <p>Wenn der Würfel richtig positioniert ist, könnt ihr ihn im oder gegen den Uhrzeigersinn rundherum kippen – immer eine Ecke weiter, von Ecke zu Ecke.<br>
+              Probiert das gleich aus.</p>
+
+              <div class="rules-separator"></div>
+
+              <h3>4. Würfel bestücken</h3>
+              <p>Ein beliebiger Spieler beginnt mit dem Stecken der ersten vier Smiley-Knöpfe, während die anderen Spieler wegschauen.</p>
+              <p>Nimm vier beliebige Smiley-Knöpfe und stecke sie willkürlich in die vier Löcher.<br>
+              Jeder Smiley-Knopf wird so gesteckt, dass seine Ausrichtung logisch zur danebenliegenden Hand passt.</p>
+              <p>Dann kippst du den Würfel einmal im Uhrzeigersinn weiter.</p>
+              <p>Der nächste Spieler steckt vier neue Smiley-Knöpfe in die nun obenliegende Würfelfläche und kippt den Würfel anschließend ebenfalls einmal im Uhrzeigersinn weiter.<br>
+              Die anderen Spieler schauen wieder weg.</p>
+              <p>Der dritte Spieler steckt die letzten vier Smiley-Knöpfe in die letzte leere Würfelfläche.</p>
+              <p>Jetzt ist der Würfel vollständig bestückt.</p>
+
+              <div class="rules-separator"></div>
+
+              <h3>🎮 SPIELBEGINN UND SPIELVERLAUF</h3>
+
+              <div class="rules-separator"></div>
+
+              <h3>1. Start & persönliche Smiley-Hand-Kombination</h3>
+              <p>Nach dem Tippen auf Start erhältst du hier im Kombifeld eine zufallsgenerierte Smiley-Hand-Kombination – wie dieses Beispiel hier.</p>
+              <p>Sie besteht aus einem der zwölf Smiley-Köpfe und einer der vier möglichen Hände.</p>
+              <p>Ziel ist es, den Würfel so zu kippen, dass der richtige Smiley-Kopf an der richtigen Hand zu liegen kommt –
+              also genau die Kombination zeigt, die auf deinem Handy vorgegeben ist.</p>
+              <p>Zu Spielbeginn tippen alle Spieler auf „Start“.<br>
+              Der Button „Start“ wird danach zu „Reset“.<br>
+              Mit „Reset“ kommst du jederzeit wieder in den Anfangszustand zurück.</p>
+
+              <div class="rules-separator"></div>
+
+              <h3>2. Reihenfolge, KIPP-START-Ritual</h3>
+              <p>Es wird reihum im Uhrzeigersinn gespielt. Ein beliebiger Spieler beginnt.<br>
+              Allerdings kann eine Kipp-Partie nur begonnen werden, indem man vorher das KIPP-START-Ritual vollzieht:</p>
+              <p>Jeder macht so überzeugend wie möglich seine in der App vorgegebene Smiley-Hand-Kombi nach.<br>
+              Dann geht’s los.</p>
+
+              <div class="rules-separator"></div>
+
+              <h3>3. Prüfen, ob Kombi bereits aufliegt – ansagen – kippen</h3>
+              <p>Wenn du an der Reihe bist, prüfst du zuerst, ob der Würfel deine Smiley-Hand-Kombi bereits zeigt.</p>
+              <p><strong>Wenn ja → „aufgelegt“:</strong></p>
+              <p>tippst du auf „aufgelegt“,<br>
+              du erhältst 1 Punkt geschenkt,<br>
+              du bekommst automatisch eine neue Ziel-Kombi,<br>
+              du bist trotzdem weiterhin am Zug.</p>
+              <p>Dann führst du deinen Kippversuch durch:</p>
+              <p>1. Sag eine Zahl von 1 bis 6 an.</p>
+              <p>2. Kippe den Würfel genau so oft, wie du angesagt hast – im oder gegen den Uhrzeigersinn.</p>
+              <p>Nach deinem Kippvorgang prüfst du erneut:</p>
+              <p><strong>Wenn jetzt deine Kombi oben liegt → „erkippt“:</strong></p>
+              <p>du tippst auf „erkippt“,<br>
+              du erhältst 3 Punkte,<br>
+              du bekommst automatisch eine neue Ziel-Kombi,<br>
+              dein Zug endet, der nächste Spieler ist dran.</p>
+              <p><strong>Wenn deine Kombi nicht erscheint:</strong></p>
+              <p>du klickst nichts an,<br>
+              deine Ziel-Kombi bleibt bestehen,<br>
+              der nächste Spieler ist an der Reihe.</p>
+
+              <div class="rules-separator"></div>
+
+              <h3>5. Gewinnen (ab 16 Punkte)</h3>
+              <p>Die App zählt alle Punkte automatisch.</p>
+              <p>Sobald ein Spieler 16 oder mehr Punkte erreicht, hat er gewonnen.</p>
+              <p>Die App zeigt ihm dann:</p>
+              <p>den Schlaumeier-Smiley 🤓<br>
+              den großen Schriftzug GEWONNEN<br>
+              und den Hinweis: „15-Punktegrenze erfolgreich überschritten.“</p>
+              <p>Damit ist die Runde beendet.</p>
+
+              <div class="rules-separator"></div>
+
+              <h3>6. Neue Runde starten</h3>
+              <p>Wenn ihr eine neue Runde spielen wollt:</p>
+              <p>1. Tippt auf allen Handys auf „Reset“ – die Punkte springen wieder auf 0.</p>
+              <p>2. Tippt dann auf „Start“ – jeder erhält erneut eine eigene, zufällige Smiley-Hand-Kombination.</p>
+              <p>Ihr könnt für eine neue Runde auch die Smiley-Knöpfe am Würfel neu umstecken.<br>
+              Mit 12 Knöpfen gibt es rund 479 Millionen verschiedene Steckkombinationen –<br>
+              niemand hat dann einen Vorteil, weil er sich Positionen gemerkt hat.</p>
+              <p>Vergesst vor jeder Partie das KIPP-START-Ritual nicht – sonst habt ihr kein Glück beim Kippen. 😉</p>
+
+            </div>
           </div>
 
         </div>
@@ -271,11 +411,13 @@
     let points = 0;
     let gameStarted = false;
     let gameWon = false;
+    let rulesVisible = false;
 
     const faceEl = document.getElementById("smileyFace");
     const handEl = document.getElementById("smileyHand");
     const comboRow = document.getElementById("comboRow");
     const cardMessage = document.getElementById("cardMessage");
+    const rulesContainer = document.getElementById("rulesContainer");
     const pointsDisplay = document.getElementById("pointsDisplay");
     const btnStart = document.getElementById("btnStart");
 
@@ -304,7 +446,7 @@
     }
 
     document.getElementById("btnOwn").onclick = () => {
-      if(!gameStarted || gameWon) return;
+      if(!gameStarted || gameWon || rulesVisible) return;
       points += 3;
       pointsDisplay.textContent = points;
       if(points >= 16) return showWinScreen();
@@ -312,7 +454,7 @@
     };
 
     document.getElementById("btnOther").onclick = () => {
-      if(!gameStarted || gameWon) return;
+      if(!gameStarted || gameWon || rulesVisible) return;
       points += 1;
       pointsDisplay.textContent = points;
       if(points >= 16) return showWinScreen();
@@ -320,24 +462,29 @@
     };
 
     btnStart.onclick = () => {
+      if(rulesVisible) return; // während der Spielbeschreibung nicht starten/resetten
       if(!gameStarted){
         gameStarted = true;
+        gameWon = false;
         points = 0;
         pointsDisplay.textContent = "0";
         cardMessage.innerHTML = "";
         comboRow.style.display = "flex";
+        handEl.style.display = "inline-block";
+        faceEl.style.fontSize = "5.2rem";
         newCombo();
         btnStart.textContent = "Reset";
       } else {
         gameWon = false;
+        gameStarted = false;
         points = 0;
         pointsDisplay.textContent = "0";
         handEl.style.display = "inline-block";
+        faceEl.textContent = "😀";
         faceEl.style.fontSize = "5.2rem";
         cardMessage.innerHTML =
           "Spielbeschreibung? Dann aufs Icon in der Ecke oben rechts klicken.<br>Gleich los spielen? Dann auf Start.";
         comboRow.style.display = "none";
-        gameStarted = false;
         btnStart.textContent = "Start";
       }
     };
@@ -346,118 +493,29 @@
       if(window.confirm("App wirklich schließen?")) window.close();
     };
 
-    // 📘 Spielbeschreibung ins Kombifeld laden
+    // Spielbeschreibung im Kombifeld ein-/ausblenden
     document.getElementById("infoIcon").onclick = () => {
-      comboRow.style.display = "none";
-      handEl.style.display = "inline-block";
-      faceEl.style.fontSize = "5.2rem";
-
-      cardMessage.innerHTML = `
-        <div style="text-align:left; font-size:0.9rem; line-height:1.4; max-height:100%; overflow-y:auto; padding-right:4px;">
-          <p><strong>📘 SPIELBESCHREIBUNG – KIPP SMILEY</strong></p>
-
-          <hr>
-
-          <p><strong>1. KIPP-Box vorbereiten</strong><br>
-          Stellt die KIPP-Box in die Mitte des Tisches und legt die Kugel in das Loch des Boxbodens ein.</p>
-
-          <hr>
-
-          <p><strong>2. Kartonrahmen auflegen</strong><br>
-          Legt den Kartonrahmen mit den Smiley-Händen nach oben auf die umlaufende Auflagefläche der Box.<br>
-          Der Rahmen kann beliebig gedreht aufgelegt werden – die Ausrichtung spielt keine Rolle.</p>
-
-          <hr>
-
-          <p><strong>3. Würfel einlegen</strong><br>
-          Schaut euch jetzt den Würfel an: Eine Ecke des Würfels ist auffällig abgeschrägt.<br><br>
-          Legt den Würfel mit dieser abgeschrägten Ecke an der Kugel anliegend in eine beliebige der vier Boxecken.<br><br>
-          Wenn der Würfel richtig positioniert ist, könnt ihr ihn im oder gegen den Uhrzeigersinn rundherum kippen – immer eine Ecke weiter, von Ecke zu Ecke.<br>
-          Probiert das gleich aus.</p>
-
-          <hr>
-
-          <p><strong>4. Würfel bestücken</strong><br>
-          Ein beliebiger Spieler beginnt mit dem Stecken der ersten vier Smiley-Knöpfe, während die anderen Spieler wegschauen.<br><br>
-          Nimm vier beliebige Smiley-Knöpfe und stecke sie willkürlich in die vier Löcher.<br>
-          Jeder Smiley-Knopf wird so gesteckt, dass seine Ausrichtung logisch zur danebenliegenden Hand passt.<br><br>
-          Dann kippst du den Würfel einmal im Uhrzeigersinn weiter.<br><br>
-          Der nächste Spieler steckt vier neue Smiley-Knöpfe in die nun obenliegende Würfelfläche und kippt den Würfel anschließend ebenfalls einmal im Uhrzeigersinn weiter.<br>
-          Die anderen Spieler schauen wieder weg.<br><br>
-          Der dritte Spieler steckt die letzten vier Smiley-Knöpfe in die letzte leere Würfelfläche.<br><br>
-          Jetzt ist der Würfel vollständig bestückt.</p>
-
-          <hr>
-
-          <p><strong>🎮 SPIELBEGINN UND SPIELVERLAUF</strong></p>
-
-          <hr>
-
-          <p><strong>1. Start & persönliche Smiley-Hand-Kombination</strong><br>
-          Nach dem Tippen auf Start erhältst du hier im Kombifeld eine zufallsgenerierte Smiley-Hand-Kombination – wie dieses Beispiel hier.<br><br>
-          Sie besteht aus einem der zwölf Smiley-Köpfe und einer der vier möglichen Hände.<br><br>
-          Ziel ist es, den Würfel so zu kippen, dass der richtige Smiley-Kopf an der richtigen Hand zu liegen kommt –
-          also genau die Kombination zeigt, die auf deinem Handy vorgegeben ist.<br><br>
-          Zu Spielbeginn tippen alle Spieler auf „Start“. Der Button „Start“ wird danach zu „Reset“.<br>
-          Mit „Reset“ kommst du jederzeit wieder in den Anfangszustand zurück.</p>
-
-          <hr>
-
-          <p><strong>2. Reihenfolge, KIPP-START-Ritual</strong><br>
-          Es wird reihum im Uhrzeigersinn gespielt. Ein beliebiger Spieler beginnt.<br>
-          Allerdings kann eine Kipp-Partie nur begonnen werden, indem man vorher das KIPP-START-Ritual vollzieht:<br><br>
-          Jeder macht so überzeugend wie möglich seine in der App vorgegebene Smiley-Hand-Kombi nach.<br>
-          Dann geht’s los.</p>
-
-          <hr>
-
-          <p><strong>3. Prüfen, ob Kombi bereits aufliegt – ansagen – kippen</strong><br>
-          Wenn du an der Reihe bist, prüfst du zuerst, ob der Würfel deine Smiley-Hand-Kombi bereits zeigt.<br><br>
-          <em>Wenn ja → „aufgelegt“:</em><br>
-          – du tippst auf „aufgelegt“,<br>
-          – du erhältst 1 Punkt geschenkt,<br>
-          – du bekommst automatisch eine neue Ziel-Kombi,<br>
-          – du bist trotzdem weiterhin am Zug.<br><br>
-          Dann führst du deinen Kippversuch durch:<br><br>
-          1. Sag eine Zahl von 1 bis 6 an.<br>
-          2. Kippe den Würfel genau so oft, wie du angesagt hast – im oder gegen den Uhrzeigersinn.<br><br>
-          Nach deinem Kippvorgang prüfst du erneut:<br><br>
-          <em>Wenn jetzt deine Kombi oben liegt → „erkippt“:</em><br>
-          – du tippst auf „erkippt“,<br>
-          – du erhältst 3 Punkte,<br>
-          – du bekommst automatisch eine neue Ziel-Kombi,<br>
-          – dein Zug endet, der nächste Spieler ist dran.<br><br>
-          <em>Wenn deine Kombi nicht erscheint:</em><br>
-          – du klickst nichts an,<br>
-          – deine Ziel-Kombi bleibt bestehen,<br>
-          – der nächste Spieler ist an der Reihe.</p>
-
-          <hr>
-
-          <p><strong>5. Gewinnen (ab 16 Punkte)</strong><br>
-          Die App zählt alle Punkte automatisch.<br><br>
-          Sobald ein Spieler 16 oder mehr Punkte erreicht, hat er gewonnen.<br><br>
-          Die App zeigt ihm dann:<br>
-          – den Schlaumeier-Smiley 🤓<br>
-          – den großen Schriftzug GEWONNEN<br>
-          – und den Hinweis: „15-Punktegrenze erfolgreich überschritten.“<br><br>
-          Damit ist die Runde beendet.</p>
-
-          <hr>
-
-          <p><strong>6. Neue Runde starten</strong><br>
-          Wenn ihr eine neue Runde spielen wollt:<br><br>
-          1. Tippt auf allen Handys auf „Reset“ – die Punkte springen wieder auf 0.<br><br>
-          2. Tippt dann auf „Start“ – jeder erhält erneut eine eigene, zufällige Smiley-Hand-Kombination.<br><br>
-          Ihr könnt für eine neue Runde auch die Smiley-Knöpfe am Würfel neu umstecken.<br>
-          Mit 12 Knöpfen gibt es rund 479 Millionen verschiedene Steckkombinationen –
-          niemand hat dann einen Vorteil, weil er sich Positionen gemerkt hat.<br><br>
-          Vergesst vor jeder Partie das KIPP-START-Ritual nicht – sonst habt ihr kein Glück beim Kippen. 😉
-          </p>
-        </div>
-      `;
+      rulesVisible = !rulesVisible;
+      if(rulesVisible){
+        // Beschreibung anzeigen
+        comboRow.style.display = "none";
+        cardMessage.style.display = "none";
+        rulesContainer.style.display = "block";
+      } else {
+        // Beschreibung ausblenden – Zustand je nach Spiel
+        rulesContainer.style.display = "none";
+        if(gameStarted){
+          cardMessage.innerHTML = "";
+          cardMessage.style.display = "block";
+          comboRow.style.display = "flex";
+        } else {
+          cardMessage.innerHTML =
+            "Spielbeschreibung? Dann aufs Icon in der Ecke oben rechts klicken.<br>Gleich los spielen? Dann auf Start.";
+          cardMessage.style.display = "block";
+          comboRow.style.display = "none";
+        }
+      }
     };
-
   </script>
 
 </body>
