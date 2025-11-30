@@ -87,41 +87,42 @@
       background: #0f172a;
       border-radius: 22px;
       display: flex;
+      flex-direction: column;       /* oben Kombi, darunter Text */
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    /* Reihe mit Hand + Gesicht */
+    .combo-row {
+      display: none;                /* am Anfang noch versteckt */
       flex-direction: row;
       align-items: center;
       justify-content: center;
       gap: 26px;
-      padding: 10px;
-      position: relative;
-      text-align: center;
     }
 
     .smiley-face {
       font-size: 5.2rem;
       line-height: 1;
       filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
-      display: none; /* wird beim Start eingeblendet */
     }
 
     .smiley-hand {
       font-size: 4.2rem;
       line-height: 1;
       filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
-      display: none; /* wird beim Start eingeblendet */
     }
 
-    .start-hint {
+    .card-message {
       font-size: 0.95rem;
-      line-height: 1.4;
-      padding: 0 10px;
+      opacity: 0.9;
+      padding: 0 4px;
     }
 
-    .win-text {
-      font-size: 0.95rem;
-      margin-top: 8px;
-    }
-
-    /* Buttons */
+    /* Buttons erkippt / aufgelegt */
     .buttons-row {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -174,33 +175,38 @@
       margin-bottom: 6px;
     }
 
-    .score-small-main {
-      font-size: 1.5rem;
-      font-weight: 800;
-    }
-
     .score-small-sub {
       font-size: 0.9rem;
       opacity: 0.8;
       margin-top: 4px;
     }
 
-    .reset-row {
-      margin-top: 14px;
-      text-align: center;
+    /* Start-/Schließen-Buttons unter der Punkte-Angabe */
+    .start-row {
+      margin-top: 10px;
       display: flex;
-      justify-content: center;
-      gap: 16px;
+      justify-content: space-between;
+      gap: 10px;
     }
 
-    .reset-btn {
+    .start-btn {
+      flex: 1;
       border: none;
-      background: none;
-      color: #9ca3af;
-      font-size: 0.9rem;
-      text-decoration: underline;
+      border-radius: 16px;
+      padding: 10px 6px;
+      font-size: 1rem;
+      font-weight: 700;
       cursor: pointer;
-      padding: 4px 8px;
+    }
+
+    .start-btn-start {
+      background: #22c55e;
+      color: #022c22;
+    }
+
+    .start-btn-close {
+      background: #ef4444;
+      color: #fff;
     }
 
   </style>
@@ -220,27 +226,24 @@
       </div>
     </div>
 
-    <div class="menu-overlay" id="closeOverlay">
-      <div>
-        <p><strong>App wirklich schließen?</strong></p>
-        <button id="btnCloseYes" class="reset-btn">ja</button>
-        <button id="btnCloseBack" class="reset-btn">zurück</button>
-      </div>
-    </div>
-
     <h1>KIPP SMILEY</h1>
 
     <div class="card-wrapper">
       <div class="card">
-        <div class="card-inner" id="cardInner">
-          <!-- Hand links, Gesicht rechts -->
-          <div class="smiley-hand" id="smileyHand">🖐</div>
-          <div class="smiley-face" id="smileyFace">😀</div>
-          <div class="start-hint" id="startHint">
-            Spielregeln? Dann auf Menü oben rechts.<br/>
+        <div class="card-inner">
+
+          <!-- Kombi-Reihe: Hand LINKS, Gesicht RECHTS -->
+          <div class="combo-row" id="comboRow">
+            <div class="smiley-hand" id="smileyHand">🖐</div>
+            <div class="smiley-face" id="smileyFace">😀</div>
+          </div>
+
+          <!-- Text im Feld (Start-Text bzw. Gewinn-Text) -->
+          <div class="card-message" id="cardMessage">
+            Spielregeln? Dann auf Menü oben rechts.<br />
             Oder mit Start-Button gleich beginnen?
           </div>
-          <div class="win-text" id="winText" style="display:none;"></div>
+
         </div>
       </div>
     </div>
@@ -252,150 +255,155 @@
 
     <div class="score-area">
       <div class="score-big" id="pointsDisplay">0</div>
-      <div class="score-small-main" id="combosDisplay">0 / 6</div>
       <div class="score-small-sub" id="roundInfo">Runde läuft …</div>
-    </div>
 
-    <div class="reset-row">
-      <button class="reset-btn" id="btnStart">Start</button>
-      <button class="reset-btn" id="btnClose">schließen</button>
+      <!-- Start / schließen – immer sichtbar -->
+      <div class="start-row" id="startRow">
+        <button class="start-btn start-btn-start" id="btnStart">Start</button>
+        <button class="start-btn start-btn-close" id="btnClose">schließen</button>
+      </div>
     </div>
 
   </div>
 
   <script>
+    // 12 Gesichter – an deine Holz-Smileys angelehnt
     const faces = [
       "😉","😵‍💫","😁","😊","😠","😂","😍",
       "😲","😚","🙄","😬","🙂"
     ];
 
+    // Deine 4 Handgesten
     const hands = ["🖐","🤞","🤟","👊"];
 
     let points = 0;
-    let combos = 0;
-    const combosPerRound = 6;
     let gameStarted = false;
     let gameWon = false;
 
     const faceEl = document.getElementById("smileyFace");
     const handEl = document.getElementById("smileyHand");
+    const comboRow = document.getElementById("comboRow");
+    const cardMessage = document.getElementById("cardMessage");
     const pointsDisplay = document.getElementById("pointsDisplay");
-    const combosDisplay = document.getElementById("combosDisplay");
     const roundInfo = document.getElementById("roundInfo");
-    const startHint = document.getElementById("startHint");
-    const winText = document.getElementById("winText");
-
     const btnStart = document.getElementById("btnStart");
     const btnClose = document.getElementById("btnClose");
-    const btnOwn = document.getElementById("btnOwn");
-    const btnOther = document.getElementById("btnOther");
 
-    const menuBtn = document.getElementById("menuBtn");
-    const menuOverlay = document.getElementById("menuOverlay");
-    const closeOverlay = document.getElementById("closeOverlay");
-    const btnCloseYes = document.getElementById("btnCloseYes");
-    const btnCloseBack = document.getElementById("btnCloseBack");
-
-    menuBtn.onclick = () => {
-      menuOverlay.style.display = "flex";
+    document.getElementById("menuBtn").onclick = () => {
+      document.getElementById("menuOverlay").style.display = "flex";
     };
 
     function randomInt(max) {
       return Math.floor(Math.random() * max);
     }
 
+    // Neue zufällige Smiley-Hand-Kombi
     function newCombo() {
-      if (gameWon) return;
+      if (!gameStarted || gameWon) return;
+
       const f = faces[randomInt(faces.length)];
       const h = hands[randomInt(hands.length)];
 
-      // Start-Hinweis ausblenden, Symbole einblenden
-      if (startHint) startHint.style.display = "none";
-      winText.style.display = "none";
-      handEl.style.display = "block";
-      faceEl.style.display = "block";
-
       faceEl.textContent = f;
+      faceEl.style.fontSize = "5.2rem";   // falls vom Gewinnscreen größer war, zurücksetzen
       handEl.textContent = h;
+      handEl.style.display = "inline-block";
 
-      // Keine Spiegelung mehr – Emoji bleibt original,
-      // Hand ist im Layout links vom Gesicht.
-      handEl.style.transform = "none";
+      comboRow.style.display = "flex";
+      cardMessage.textContent = "";       // kein Text während normalem Spiel
     }
 
     function updateScoreDisplay() {
       pointsDisplay.textContent = points;
-      combosDisplay.textContent = combos + " / " + combosPerRound;
-      roundInfo.textContent =
-        combos >= combosPerRound ? "KIPP STOPP – Runde voll!" : "Runde läuft …";
+
+      if (gameWon) {
+        roundInfo.textContent = "Spiel gewonnen!";
+      } else {
+        roundInfo.textContent = "Runde läuft …";
+      }
     }
 
-    function checkWin() {
-      if (points >= 16 && !gameWon) {
-        gameWon = true;
-        // Gewinnbild: 🤓 groß, Text darunter
-        handEl.style.display = "none";
-        faceEl.style.display = "block";
-        faceEl.textContent = "🤓";
-        winText.textContent = "Gewonnen. 15-Punktegrenze erfolgreich überschritten.";
-        winText.style.display = "block";
-      }
+    function showWinScreen() {
+      gameWon = true;
+      // Schlaukopf-Smiley groß anzeigen, Hand ausblenden
+      comboRow.style.display = "flex";
+      handEl.style.display = "none";
+      faceEl.textContent = "🤓";
+      faceEl.style.fontSize = "6rem";
+      cardMessage.textContent = "Gewonnen. 15-Punktegrenze erfolgreich überschritten.";
+      updateScoreDisplay();
     }
 
     function handleKipp(pointsToAdd) {
       if (!gameStarted || gameWon) {
         return;
       }
-      if (combos >= combosPerRound) {
-        // Runde voll – keine weiteren Punkte, aber neue Kombi möglich
-        newCombo();
+
+      points += pointsToAdd;
+
+      // Gewinnbedingung: 16 oder mehr Punkte
+      if (points >= 16 && !gameWon) {
+        showWinScreen();
         return;
       }
-      points += pointsToAdd;
-      combos += 1;
+
       updateScoreDisplay();
-      checkWin();
-      if (!gameWon) {
-        newCombo();
-      }
+      newCombo();
     }
 
-    btnOwn.onclick = () => handleKipp(3);
-    btnOther.onclick = () => handleKipp(1);
-
-    btnStart.onclick = () => {
-      // Start dient auch als "Runde neu starten"
+    // Spiel starten
+    function startGame() {
       gameStarted = true;
       gameWon = false;
       points = 0;
-      combos = 0;
+      btnStart.textContent = "Reset";
+      comboRow.style.display = "flex";
+      cardMessage.textContent = "";
+      handEl.style.display = "inline-block";
+      faceEl.style.fontSize = "5.2rem";
       updateScoreDisplay();
-      if (startHint) startHint.style.display = "none";
-      winText.style.display = "none";
       newCombo();
-    };
+    }
 
-    btnClose.onclick = () => {
-      closeOverlay.style.display = "flex";
-    };
+    // Spiel zurücksetzen in Anfangszustand
+    function resetGame() {
+      gameStarted = false;
+      gameWon = false;
+      points = 0;
+      btnStart.textContent = "Start";
+      comboRow.style.display = "none";
+      handEl.style.display = "inline-block";
+      faceEl.textContent = "😀";
+      faceEl.style.fontSize = "5.2rem";
+      cardMessage.innerHTML =
+        "Spielregeln? Dann auf Menü oben rechts.<br />Oder mit Start-Button gleich beginnen?";
+      roundInfo.textContent = "Runde läuft …";
+      updateScoreDisplay();
+    }
 
-    btnCloseBack.onclick = () => {
-      closeOverlay.style.display = "none";
-    };
-
-    btnCloseYes.onclick = () => {
-      // Versuch, die App/Seite zu schließen; Fallback: Inhalt ausblenden
-      closeOverlay.style.display = "none";
-      try {
-        window.close();
-      } catch (e) {
-        // Ignorieren – manche Browser blockieren window.close()
+    // Start-Button: Start ↔ Reset
+    btnStart.onclick = () => {
+      if (!gameStarted) {
+        startGame();
+      } else {
+        resetGame();
       }
-      document.body.innerHTML = "<div style='color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;font-family:system-ui;'>App geschlossen.</div>";
     };
 
-    // Anfangszustand: nur Punkteanzeige, Hinweistext im Feld
-    updateScoreDisplay();
+    // "schließen" – Nachfrage, dann ggf. Fenster schließen
+    btnClose.onclick = () => {
+      const really = window.confirm("App wirklich schließen?");
+      if (really) {
+        window.close(); // Im Browser meist blockiert, für echte App später anders lösen
+      }
+    };
+
+    // Erkippt / Aufgelegt
+    document.getElementById("btnOwn").onclick = () => handleKipp(3);
+    document.getElementById("btnOther").onclick = () => handleKipp(1);
+
+    // Anfangszustand setzen
+    resetGame();
   </script>
 
 </body>
