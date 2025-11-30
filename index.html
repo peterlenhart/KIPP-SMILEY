@@ -46,17 +46,16 @@
       opacity: 1;
     }
 
-    /* ✖ kleines Kreuz, wenn Spielbeschreibung geöffnet ist */
-    .info-icon.open {
-      position: absolute;
-    }
-
-    .info-icon.open::after {
+    /* ✖ Fettes X, wenn Spielbeschreibung offen */
+    .info-icon.show-close::after {
       content: "✖";
       position: absolute;
       top: -6px;
       right: -6px;
-      font-size: 1.1rem;
+      font-size: 1.4rem;
+      color: #ff4444;
+      text-shadow: 0 0 4px #000;
+      pointer-events: none;
     }
 
     .menu-overlay {
@@ -307,8 +306,8 @@
 
           <!-- Starttext -->
           <div class="card-message" id="cardMessage">
-            Spielbeschreibung? Dann aufs Icon in der Ecke oben rechts klicken.<br>
-            Gleich los spielen? Dann auf Start.
+            Spielbeschreibung? Dann klicke aufs Icon oben rechts.<br>
+            Gleich los spielen? Alle Spieler klicken auf Start.
           </div>
 
           <!-- Scrollbare Spielbeschreibung im Kombifeld -->
@@ -354,7 +353,7 @@
               <div class="rules-separator"></div>
 
               <h3>1. Start & persönliche Smiley-Hand-Kombination</h3>
-              <p>Nach dem Tippen auf Start erhältst du hier im Kombifeld eine zufallsgenerierte Smiley-Hand-Kombination – wie dieses Beispiel hier:</p>
+              <p>Zu Spielbeginn tippen alle Spieler auf Start, und so erhält jeder hier im Kombifeld eine zufallsgenerierte Smiley-Hand-Kombination – wie dieses Beispiel hier:</p>
 
               <!-- Beispiel-Kombi im Regeltext: Rockerhand + Grinser -->
               <div class="rules-combo-example">
@@ -365,9 +364,8 @@
               <p>Sie besteht aus einem der zwölf Smiley-Köpfe und einer der vier möglichen Hände.</p>
               <p>Ziel ist es, den Würfel so zu kippen, dass der richtige Smiley-Kopf an der richtigen Hand zu liegen kommt –
               also genau die Kombination zeigt, die auf deinem Handy vorgegeben ist.</p>
-              <p>Zu Spielbeginn tippen alle Spieler auf „Start“.<br>
-              Der Button „Start“ wird danach zu „Reset“.<br>
-              Mit „Reset“ kommst du jederzeit wieder in den Anfangszustand zurück.</p>
+              <p>Nach Klick auf Start wird dieser Button zu "Reset".<br>
+              Mit „Reset“ kommt man jederzeit wieder in den Anfangszustand zurück.</p>
 
               <div class="rules-separator"></div>
 
@@ -381,21 +379,20 @@
 
               <h3>3. Prüfen, ob Kombi bereits aufliegt – ansagen – kippen</h3>
               <p>Wenn du an der Reihe bist, prüfst du zuerst, ob der Würfel deine Smiley-Hand-Kombi bereits zeigt.</p>
-              <p>Wenn ja, tippst du auf „aufgelegt“.<br>
-              Du erhältst 1 Punkt geschenkt,<br>
+              <p><strong>Wenn ja, tippst du auf „aufgelegt“:</strong><br>
+              du erhältst 1 Punkt geschenkt,<br>
               du bekommst automatisch eine neue Ziel-Kombi,<br>
-              und du bist trotzdem weiterhin am Zug.</p>
+              du bist trotzdem weiterhin am Zug.</p>
               <p>Dann führst du deinen Kippversuch durch:</p>
               <p>1. Sag eine Zahl von 1 bis 6 an.</p>
               <p>2. Kippe den Würfel genau so oft, wie du angesagt hast – im oder gegen den Uhrzeigersinn.</p>
-              <p>Nach deinem Kippvorgang prüfst du erneut, ob der Würfel deine Smiley-Hand-Kombi zeigt.</p>
-              <p><strong>Wenn ja → „erkippt“:</strong></p>
-              <p>du tippst auf „erkippt“,<br>
+              <p>Nach deinem Kippvorgang prüfst du erneut:</p>
+              <p><strong>Wenn jetzt deine Kombi zu sehen ist, tippst du auf „erkippt“:</strong><br>
               du erhältst 3 Punkte,<br>
               du bekommst automatisch eine neue Ziel-Kombi,<br>
               dein Zug endet, der nächste Spieler ist dran.</p>
-              <p><strong>Wenn deine Kombi nicht erscheint:</strong></p>
-              <p>du klickst nichts an,<br>
+              <p><strong>Wenn sich deine Kombi durch dein Kippen nicht ergeben hat:</strong></p>
+              <p>klickst du nichts an,<br>
               deine Ziel-Kombi bleibt bestehen,<br>
               der nächste Spieler ist an der Reihe.</p>
 
@@ -535,15 +532,18 @@
     // Spielbeschreibung im Kombifeld ein-/ausblenden
     infoIcon.onclick = () => {
       rulesVisible = !rulesVisible;
+
       if(rulesVisible){
+        // X einblenden
+        infoIcon.classList.add("show-close");
         // Beschreibung anzeigen
-        infoIcon.classList.add("open");
         comboRow.style.display = "none";
         cardMessage.style.display = "none";
         rulesContainer.style.display = "block";
       } else {
+        // X ausblenden
+        infoIcon.classList.remove("show-close");
         // Beschreibung ausblenden – Zustand je nach Spiel
-        infoIcon.classList.remove("open");
         rulesContainer.style.display = "none";
         if(gameStarted){
           cardMessage.innerHTML = "";
