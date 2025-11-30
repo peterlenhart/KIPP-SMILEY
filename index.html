@@ -46,6 +46,19 @@
       opacity: 1;
     }
 
+    /* ✖ kleines Kreuz, wenn Spielbeschreibung geöffnet ist */
+    .info-icon.open {
+      position: absolute;
+    }
+
+    .info-icon.open::after {
+      content: "✖";
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      font-size: 1.1rem;
+    }
+
     .menu-overlay {
       position: fixed;
       inset: 0;
@@ -139,22 +152,6 @@
       color: #f8fafc;
       line-height: 1.35;
       padding: 0 6px;
-    }
-
-    /* Hinweis-Balken OBEN, außerhalb der Maske */
-    .rules-hint-bar {
-      position: absolute;
-      top: 6px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 4px 10px;
-      background: #020617;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      border: 1px solid rgba(148,163,184,0.7);
-      white-space: nowrap;
-      z-index: 40;
-      display: none;
     }
 
     /* Scrollbereich für Spielbeschreibung im Kombifeld */
@@ -301,12 +298,6 @@
 
     <div class="card-wrapper">
       <div class="card">
-
-        <!-- Hinweis-Balken außerhalb der Maske -->
-        <div class="rules-hint-bar" id="rulesHint">
-          Spielbeschreibung – zum Schließen wieder auf das 📘-Icon tippen.
-        </div>
-
         <div class="card-inner">
 
           <div class="combo-row" id="comboRow">
@@ -389,20 +380,21 @@
               <div class="rules-separator"></div>
 
               <h3>3. Prüfen, ob Kombi bereits aufliegt – ansagen – kippen</h3>
-              <p>Wenn du an der Reihe bist, prüfst du zuerst, ob der Würfel deine Smiley-Hand-Kombi bereits zeigt. Wenn ja, tippst du auf „aufgelegt“.</p>
-              <p>Du erhältst 1 Punkt geschenkt,<br>
-              du bekommst automatisch eine neue Ziel-Kombi<br>
+              <p>Wenn du an der Reihe bist, prüfst du zuerst, ob der Würfel deine Smiley-Hand-Kombi bereits zeigt.</p>
+              <p>Wenn ja, tippst du auf „aufgelegt“.<br>
+              Du erhältst 1 Punkt geschenkt,<br>
+              du bekommst automatisch eine neue Ziel-Kombi,<br>
               und du bist trotzdem weiterhin am Zug.</p>
               <p>Dann führst du deinen Kippversuch durch:</p>
               <p>1. Sag eine Zahl von 1 bis 6 an.</p>
               <p>2. Kippe den Würfel genau so oft, wie du angesagt hast – im oder gegen den Uhrzeigersinn.</p>
-              <p>Nach deinem Kippvorgang prüfst du erneut, ob deine Smiley-Hand-Kombi jetzt oben liegt.</p>
+              <p>Nach deinem Kippvorgang prüfst du erneut, ob der Würfel deine Smiley-Hand-Kombi zeigt.</p>
               <p><strong>Wenn ja → „erkippt“:</strong></p>
               <p>du tippst auf „erkippt“,<br>
               du erhältst 3 Punkte,<br>
               du bekommst automatisch eine neue Ziel-Kombi,<br>
               dein Zug endet, der nächste Spieler ist dran.</p>
-              <p><strong>Wenn nicht:</strong></p>
+              <p><strong>Wenn deine Kombi nicht erscheint:</strong></p>
               <p>du klickst nichts an,<br>
               deine Ziel-Kombi bleibt bestehen,<br>
               der nächste Spieler ist an der Reihe.</p>
@@ -464,9 +456,9 @@
     const comboRow = document.getElementById("comboRow");
     const cardMessage = document.getElementById("cardMessage");
     const rulesContainer = document.getElementById("rulesContainer");
-    const rulesHint = document.getElementById("rulesHint");
     const pointsDisplay = document.getElementById("pointsDisplay");
     const btnStart = document.getElementById("btnStart");
+    const infoIcon = document.getElementById("infoIcon");
 
     document.getElementById("menuBtn").onclick = () =>
       document.getElementById("menuOverlay").style.display = "flex";
@@ -541,18 +533,18 @@
     };
 
     // Spielbeschreibung im Kombifeld ein-/ausblenden
-    document.getElementById("infoIcon").onclick = () => {
+    infoIcon.onclick = () => {
       rulesVisible = !rulesVisible;
       if(rulesVisible){
         // Beschreibung anzeigen
+        infoIcon.classList.add("open");
         comboRow.style.display = "none";
         cardMessage.style.display = "none";
         rulesContainer.style.display = "block";
-        rulesHint.style.display = "block";
       } else {
         // Beschreibung ausblenden – Zustand je nach Spiel
+        infoIcon.classList.remove("open");
         rulesContainer.style.display = "none";
-        rulesHint.style.display = "none";
         if(gameStarted){
           cardMessage.innerHTML = "";
           cardMessage.style.display = "block";
