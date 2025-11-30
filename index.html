@@ -22,20 +22,45 @@
       padding: 20px 12px;
     }
 
+    /* Hamburger-Menü */
+    .hamburger {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      font-size: 2rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .menu-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 20;
+      color: #fff;
+      font-size: 1.4rem;
+      padding: 20px;
+      text-align: center;
+    }
+
     .app {
       width: 100%;
       max-width: 480px;
       text-align: center;
+      position: relative;
     }
 
     h1 {
       margin: 0 0 20px;
-      font-size: 2.2rem;
+      font-size: 2.4rem;
       letter-spacing: 0.05em;
       font-weight: 800;
     }
 
-    /* Kartenfeld – EIN Rechteck mit Gesicht + Hand nebeneinander */
+    /* Kartenfeld */
     .card-wrapper {
       display: flex;
       justify-content: center;
@@ -43,10 +68,10 @@
     }
 
     .card {
-      width: min(70vw, 280px);
-      height: min(70vw, 280px);
-      max-width: 320px;
-      max-height: 320px;
+      width: min(90vw, 360px);
+      height: min(90vw, 360px);
+      max-width: 380px;
+      max-height: 380px;
       background: linear-gradient(145deg, #1f2838, #151b28);
       border-radius: 28px;
       box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
@@ -57,31 +82,32 @@
     }
 
     .card-inner {
-      width: 90%;
-      height: 80%;
+      width: 92%;
+      height: 82%;
       background: #0f172a;
       border-radius: 22px;
       display: flex;
-      flex-direction: row;         /* Hand NEBEN Kopf */
+      flex-direction: row;
       align-items: center;
       justify-content: center;
-      gap: 18px;
+      gap: 26px;
       padding: 10px;
     }
 
     .smiley-face {
-      font-size: 4.2rem;
+      font-size: 5.2rem;
       line-height: 1;
       filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
     }
 
     .smiley-hand {
-      font-size: 3.4rem;
+      font-size: 4.2rem;
       line-height: 1;
       filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
+      transform-origin: center center;
     }
 
-    /* Buttons Eigener Kipp / Mitspieler Kipp */
+    /* Buttons */
     .buttons-row {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -117,52 +143,36 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.4);
     }
 
-    /* Punkte / Kombi-Anzeige */
+    /* Punkte */
     .score-area {
       margin-top: 6px;
-      padding: 14px 14px 18px;
+      padding: 20px 14px 22px;
       background: #0b1220;
       border-radius: 18px;
       border: 1px solid rgba(148, 163, 184, 0.3);
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: 10px;
-      align-items: center;
+      text-align: center;
     }
 
     .score-big {
-      font-size: 2.3rem;
+      font-size: 3.4rem;
       font-weight: 900;
       color: #e5ff4a;
-      text-align: left;
-      line-height: 1.1;
-    }
-
-    .score-label {
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      opacity: 0.8;
-    }
-
-    .score-small-block {
-      text-align: right;
+      margin-bottom: 6px;
     }
 
     .score-small-main {
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       font-weight: 800;
     }
 
     .score-small-sub {
-      font-size: 0.75rem;
+      font-size: 0.9rem;
       opacity: 0.8;
-      margin-top: 2px;
+      margin-top: 4px;
     }
 
-    /* Reset-Button klein darunter */
     .reset-row {
-      margin-top: 10px;
+      margin-top: 14px;
       text-align: center;
     }
 
@@ -170,30 +180,29 @@
       border: none;
       background: none;
       color: #9ca3af;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       text-decoration: underline;
       cursor: pointer;
       padding: 4px 8px;
     }
 
-    .reset-btn:active {
-      color: #e5e7eb;
-    }
-
-    @media (min-width: 768px) {
-      .app {
-        max-width: 540px;
-      }
-
-      .card {
-        width: 260px;
-        height: 260px;
-      }
-    }
   </style>
 </head>
 <body>
+
   <div class="app">
+
+    <div class="hamburger" id="menuBtn">☰</div>
+
+    <div class="menu-overlay" id="menuOverlay">
+      <div>
+        <p><strong>MENÜ</strong></p>
+        <p>Hier kannst du später Video & Beschreibung einfügen.</p>
+        <button onclick="document.getElementById('menuOverlay').style.display='none'"
+        class="reset-btn">Schließen</button>
+      </div>
+    </div>
+
     <h1>KIPP SMILEY</h1>
 
     <div class="card-wrapper">
@@ -206,45 +215,28 @@
     </div>
 
     <div class="buttons-row">
-      <button class="btn btn-primary" id="btnOwn">Eigener Kipp</button>
-      <button class="btn btn-secondary" id="btnOther">Mitspieler Kipp</button>
+      <button class="btn btn-primary" id="btnOwn">erkippt</button>
+      <button class="btn btn-secondary" id="btnOther">aufgelegt</button>
     </div>
 
     <div class="score-area">
-      <div>
-        <div class="score-label">Punkte</div>
-        <div class="score-big" id="pointsDisplay">0</div>
-      </div>
-      <div class="score-small-block">
-        <div class="score-label">Kombis</div>
-        <div class="score-small-main" id="combosDisplay">0 / 6</div>
-        <div class="score-small-sub" id="roundInfo">Runde läuft …</div>
-      </div>
+      <div class="score-big" id="pointsDisplay">0</div>
+      <div class="score-small-main" id="combosDisplay">0 / 6</div>
+      <div class="score-small-sub" id="roundInfo">Runde läuft …</div>
     </div>
 
     <div class="reset-row">
       <button class="reset-btn" id="btnReset">Runde zurücksetzen</button>
     </div>
+
   </div>
 
   <script>
-    // 12 Gesichter – an deine Holz-Smileys angelehnt
     const faces = [
-      "😉",  // Zwinkerer
-      "😵‍💫", // Zlinka / verwirrt
-      "😁",  // Grinser mit Zähnen
-      "😊",  // Lächelnd, Augen zu
-      "😠",  // böser Blick (gelb)
-      "😂",  // Tränenlacher
-      "😍",  // Herzen in den Augen
-      "😲",  // Schock
-      "😚",  // Kuss
-      "🙄",  // Denker / Augen nach oben
-      "😬",  // Igitt / Zähne
-      "🙂"   // normaler Smiley
+      "😉","😵‍💫","😁","😊","😠","😂","😍",
+      "😲","😚","🙄","😬","🙂"
     ];
 
-    // Deine 4 Handgesten
     const hands = ["🖐","🤞","🤟","👊"];
 
     let points = 0;
@@ -256,29 +248,38 @@
     const pointsDisplay = document.getElementById("pointsDisplay");
     const combosDisplay = document.getElementById("combosDisplay");
     const roundInfo = document.getElementById("roundInfo");
-    const btnOwn = document.getElementById("btnOwn");
-    const btnOther = document.getElementById("btnOther");
-    const btnReset = document.getElementById("btnReset");
+
+    document.getElementById("menuBtn").onclick = () => {
+      document.getElementById("menuOverlay").style.display = "flex";
+    };
 
     function randomInt(max) {
       return Math.floor(Math.random() * max);
     }
 
+    function adjustHandDirection(hand) {
+      if (hand === "🖐") return "scaleX(1)";
+      if (hand === "👊") return "scaleX(-1)";
+      if (hand === "🤞") return "scaleX(-1)";
+      if (hand === "🤟") return "scaleX(-1)";
+      return "scaleX(1)";
+    }
+
     function newCombo() {
       const f = faces[randomInt(faces.length)];
       const h = hands[randomInt(hands.length)];
+
       faceEl.textContent = f;
       handEl.textContent = h;
+
+      handEl.style.transform = adjustHandDirection(h);
     }
 
     function updateScoreDisplay() {
       pointsDisplay.textContent = points;
       combosDisplay.textContent = combos + " / " + combosPerRound;
-      if (combos >= combosPerRound) {
-        roundInfo.textContent = "KIPP STOPP – Runde voll!";
-      } else {
-        roundInfo.textContent = "Runde läuft …";
-      }
+      roundInfo.textContent =
+        combos >= combosPerRound ? "KIPP STOPP – Runde voll!" : "Runde läuft …";
     }
 
     function handleKipp(pointsToAdd) {
@@ -292,24 +293,14 @@
       newCombo();
     }
 
-    btnOwn.addEventListener("click", () => {
-      handleKipp(3); // Eigener Kipp = 3 Punkte
-    });
+    document.getElementById("btnOwn").onclick = () => handleKipp(3);
+    document.getElementById("btnOther").onclick = () => handleKipp(1);
+    document.getElementById("btnReset").onclick =
+      () => { points = 0; combos = 0; updateScoreDisplay(); newCombo(); };
 
-    btnOther.addEventListener("click", () => {
-      handleKipp(1); // Mitspieler Kipp = 1 Punkt
-    });
-
-    btnReset.addEventListener("click", () => {
-      points = 0;
-      combos = 0;
-      updateScoreDisplay();
-      newCombo();
-    });
-
-    // Start
     updateScoreDisplay();
     newCombo();
   </script>
+
 </body>
 </html>
