@@ -262,28 +262,89 @@
 
     .start-btn {
       flex: 1;
-      border: none;
       border-radius: 16px;
       padding: 10px 6px;
       font-size: 1rem;
       font-weight: 700;
       cursor: pointer;
+      border: 2px solid transparent;
     }
 
-    /* Start = grün wie bisher */
+    /* Start (grün) */
     .start-btn-start {
       background: #22c55e;
       color: #022c22;
+      border-color: #16a34a;
     }
 
-    /* Reset = hellgrau mit dunkelgrüner Umrandung */
-    .start-btn-reset {
-      background: #e5e7eb;          /* hellgrau */
-      color: #065f46;               /* dunkles Grün für Text */
-      border: 2px solid #065f46;    /* dunkelgrüne Umrandung */
+    /* Reset (grau mit dunkelgrüner Umrandung) */
+    .start-btn-start.reset-mode {
+      background: #e5e7eb;
+      color: #065f46;
+      border-color: #065f46;
     }
 
     .start-btn-close { background: #ef4444; color: white; }
+
+    /* Reset-Dialog (Variante C) */
+    .reset-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 40;
+    }
+
+    .reset-dialog {
+      background: #0f172a;
+      border-radius: 20px;
+      padding: 18px 18px 16px;
+      width: min(80vw, 320px);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.7);
+      border: 1px solid rgba(148,163,184,0.6);
+      text-align: center;
+    }
+
+    .reset-title {
+      margin: 0 0 6px;
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .reset-text {
+      margin: 0 0 14px;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .reset-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .reset-btn {
+      flex: 1;
+      border-radius: 14px;
+      padding: 9px 6px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+    }
+
+    .reset-btn.cancel {
+      background: #111827;
+      color: #e5e7eb;
+      border: 1px solid #4b5563;
+    }
+
+    .reset-btn.confirm {
+      background: #f97316;
+      color: #451a03;
+    }
 
   </style>
 </head>
@@ -301,7 +362,21 @@
         <p><strong>MENÜ</strong></p>
         <p>Hier kannst du später Video & Beschreibung einfügen.</p>
         <button onclick="document.getElementById('menuOverlay').style.display='none'"
-        class="reset-btn">Schließen</button>
+        class="reset-btn cancel">Schließen</button>
+      </div>
+    </div>
+
+    <!-- Reset-Overlay im App-Stil -->
+    <div class="reset-overlay" id="resetOverlay">
+      <div class="reset-dialog">
+        <p class="reset-title">Reset?</p>
+        <p class="reset-text">
+          Möchtest du wirklich die Punkte und das gesamte Spiel zurücksetzen?
+        </p>
+        <div class="reset-buttons">
+          <button class="reset-btn cancel" id="resetCancel">Nein</button>
+          <button class="reset-btn confirm" id="resetConfirm">Ja</button>
+        </div>
       </div>
     </div>
 
@@ -378,7 +453,6 @@
               dass sich also genau die Kombination ergibt, die auf deinem Handy vorgegeben ist.</p>
               <p>Nach Klick auf Start wird der Button zu "Reset".<br>
               Damit kommt man jederzeit wieder in den Anfangszustand zurück.</p>
-              <p><em>Wenn du während deiner Partie etwas in der Spielbeschreibung nachlesen möchtest, kannst du jederzeit auf das 📘-Icon tippen. Die gerade angezeigte Smiley-Hand-Kombination verschwindet dabei nur vorübergehend und ist wieder da, sobald du die Spielbeschreibung schließt.</em></p>
 
               <div class="rules-separator"></div>
 
@@ -454,7 +528,7 @@
 
   <script>
     const faces = ["😉","😵‍💫","😁","😊","😠","😂","😍","😲","😚","🙄","😬","🙂"];
-    const hands = ["🖐","🤞","🤟","👊"];
+    const hands = ["🖐","🤞","🤟","✊"]; // Faust passend zur Box
 
     let points = 0;
     let gameStarted = false;
@@ -470,26 +544,19 @@
     const btnStart = document.getElementById("btnStart");
     const infoIcon = document.getElementById("infoIcon");
 
+    const resetOverlay = document.getElementById("resetOverlay");
+    const resetCancel = document.getElementById("resetCancel");
+    const resetConfirm = document.getElementById("resetConfirm");
+
     document.getElementById("menuBtn").onclick = () =>
       document.getElementById("menuOverlay").style.display = "flex";
 
     function randomInt(max){ return Math.floor(Math.random()*max); }
 
-    // Hand setzen + Faust drehen
-    function setHandSymbol(symbol){
-      handEl.textContent = symbol;
-      if(symbol === "👊"){
-        handEl.style.transform = "rotate(-90deg)";
-      } else {
-        handEl.style.transform = "none";
-      }
-    }
-
     function newCombo(){
       if(!gameStarted || gameWon) return;
       faceEl.textContent = faces[randomInt(faces.length)];
-      const handSymbol = hands[randomInt(hands.length)];
-      setHandSymbol(handSymbol);
+      handEl.textContent = hands[randomInt(hands.length)];
       comboRow.style.display = "flex";
       cardMessage.innerHTML = "";
     }
@@ -521,11 +588,12 @@
       newCombo();
     };
 
+    // Start / Reset
     btnStart.onclick = () => {
       if(rulesVisible) return; // während der Spielbeschreibung nicht starten/resetten
 
       if(!gameStarted){
-        // von Start -> Reset-Zustand
+        // Start
         gameStarted = true;
         gameWon = false;
         points = 0;
@@ -536,30 +604,37 @@
         faceEl.style.fontSize = "5.2rem";
         newCombo();
         btnStart.textContent = "Reset";
-        btnStart.classList.remove("start-btn-start");
-        btnStart.classList.add("start-btn-reset");
+        btnStart.classList.add("reset-mode");
       } else {
-        // Sicherheitsabfrage vor Reset
-        const reallyReset = window.confirm("Möchtest du wirklich die Punkte und das gesamte Spiel zurücksetzen?");
-        if(!reallyReset) return;
-
-        gameWon = false;
-        gameStarted = false;
-        points = 0;
-        pointsDisplay.textContent = "0";
-        handEl.style.display = "inline-block";
-        setHandSymbol("🖐");
-        faceEl.textContent = "😀";
-        faceEl.style.fontSize = "5.2rem";
-        cardMessage.innerHTML =
-          "Spielbeschreibung? Dann aufs Icon in der Ecke oben rechts klicken.<br>Gleich los spielen? Dann auf Start.";
-        comboRow.style.display = "none";
-        btnStart.textContent = "Start";
-        btnStart.classList.remove("start-btn-reset");
-        btnStart.classList.add("start-btn-start");
+        // Reset-Dialog anzeigen
+        resetOverlay.style.display = "flex";
       }
     };
 
+    // Reset-Dialog: Nein
+    resetCancel.onclick = () => {
+      resetOverlay.style.display = "none";
+    };
+
+    // Reset-Dialog: Ja
+    resetConfirm.onclick = () => {
+      resetOverlay.style.display = "none";
+      gameWon = false;
+      gameStarted = false;
+      points = 0;
+      pointsDisplay.textContent = "0";
+      handEl.style.display = "inline-block";
+      faceEl.textContent = "😀";
+      faceEl.style.fontSize = "5.2rem";
+      cardMessage.innerHTML =
+        "Spielbeschreibung? Dann klicke aufs Icon oben rechts.<br>Gleich los spielen? Alle Spieler klicken auf Start.";
+      cardMessage.style.display = "block";
+      comboRow.style.display = "none";
+      btnStart.textContent = "Start";
+      btnStart.classList.remove("reset-mode");
+    };
+
+    // schließen-Button für die App
     document.getElementById("btnClose").onclick = () => {
       if(window.confirm("App wirklich schließen?")) window.close();
     };
@@ -586,7 +661,7 @@
           comboRow.style.display = "flex";
         } else {
           cardMessage.innerHTML =
-            "Spielbeschreibung? Dann aufs Icon in der Ecke oben rechts klicken.<br>Gleich los spielen? Dann auf Start.";
+            "Spielbeschreibung? Dann klicke aufs Icon oben rechts.<br>Gleich los spielen? Alle Spieler klicken auf Start.";
           cardMessage.style.display = "block";
           comboRow.style.display = "none";
         }
