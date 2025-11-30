@@ -29,13 +29,13 @@
     }
 
     h1 {
-      margin: 0 0 16px;
+      margin: 0 0 20px;
       font-size: 2.2rem;
       letter-spacing: 0.05em;
       font-weight: 800;
     }
 
-    /* Kartenfeld – EIN Rechteck mit Gesicht + Hand */
+    /* Kartenfeld – EIN Rechteck mit Gesicht + Hand nebeneinander */
     .card-wrapper {
       display: flex;
       justify-content: center;
@@ -51,11 +51,9 @@
       border-radius: 28px;
       box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
       padding: 20px;
-      gap: 18px;
     }
 
     .card-inner {
@@ -64,16 +62,11 @@
       background: #0f172a;
       border-radius: 22px;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px;
-    }
-
-    .smiley-row {
-      display: flex;
+      flex-direction: row;         /* Hand NEBEN Kopf */
       align-items: center;
       justify-content: center;
       gap: 18px;
+      padding: 10px;
     }
 
     .smiley-face {
@@ -83,7 +76,7 @@
     }
 
     .smiley-hand {
-      font-size: 3.2rem;
+      font-size: 3.4rem;
       line-height: 1;
       filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
     }
@@ -206,10 +199,8 @@
     <div class="card-wrapper">
       <div class="card">
         <div class="card-inner">
-          <div class="smiley-row">
-            <div class="smiley-hand" id="smileyHand">🖐</div>
-            <div class="smiley-face" id="smileyFace">😀</div>
-          </div>
+          <div class="smiley-face" id="smileyFace">😀</div>
+          <div class="smiley-hand" id="smileyHand">🖐</div>
         </div>
       </div>
     </div>
@@ -237,35 +228,23 @@
   </div>
 
   <script>
-    // 12 Gesichter – entsprechend deiner Beschreibung / Wünsche
-    // 1  Zlinka (Spiralen)
-    // 2  Grinser mit Zähnen, geschlossene Augen
-    // 3  Lächeln, Augen zu, rote Wangen
-    // 4  normaler Smiley
-    // 5  böse blickend (gelb)
-    // 6  Lacher mit Tränen
-    // 7  Herzen in den Augen
-    // 8  Schock (Ersatz 8)
-    // 9  Kuss (Ersatz 9)
-    // 10 Denker / Augen nach oben (Ersatz 10)
-    // 11 Igitt / Zähne
-    // 12 optional „cool“
+    // 12 Gesichter – an deine Holz-Smileys angelehnt
     const faces = [
-      "😵‍💫", // Zlinka
-      "😁",   // Grinser
-      "😊",   // Augen zu, rote Wangen
-      "🙂",   // normal
-      "😠",   // böse, gelb
-      "😂",   // Lacher
-      "😍",   // Herzen
-      "😲",   // Schock
-      "😚",   // Kuss
-      "🙄",   // Denker
-      "😬",   // Igitt / Zähne
-      "😉"    // Zwinker
+      "😉",  // Zwinkerer
+      "😵‍💫", // Zlinka / verwirrt
+      "😁",  // Grinser mit Zähnen
+      "😊",  // Lächelnd, Augen zu
+      "😠",  // böser Blick (gelb)
+      "😂",  // Tränenlacher
+      "😍",  // Herzen in den Augen
+      "😲",  // Schock
+      "😚",  // Kuss
+      "🙄",  // Denker / Augen nach oben
+      "😬",  // Igitt / Zähne
+      "🙂"   // normaler Smiley
     ];
 
-    // 4 Handgesten, wie von dir festgelegt
+    // Deine 4 Handgesten
     const hands = ["🖐","🤞","🤟","👊"];
 
     let points = 0;
@@ -304,7 +283,6 @@
 
     function handleKipp(pointsToAdd) {
       if (combos >= combosPerRound) {
-        // Runde schon voll – optional trotzdem neue Kombi zulassen
         newCombo();
         return;
       }
