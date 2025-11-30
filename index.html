@@ -148,9 +148,25 @@
       height: 100%;
       overflow-y: auto;
       text-align: left;
-      padding: 8px 10px 4px;
+      padding: 0; /* Padding im Inneren geregelt */
       font-size: 0.92rem;
       line-height: 1.45;
+    }
+
+    /* Balken oben in der Spielbeschreibung */
+    .rules-header-bar {
+      position: sticky;
+      top: 0;
+      background: #020617;
+      padding: 4px 8px;
+      font-size: 0.8rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(148,163,184,0.5);
+      z-index: 1;
+    }
+
+    .rules-text {
+      padding: 8px 10px 4px;
     }
 
     .rules-text h2 {
@@ -300,6 +316,12 @@
 
           <!-- Scrollbare Spielbeschreibung im Kombifeld -->
           <div class="rules-container" id="rulesContainer">
+
+            <!-- Neuer Balken oben -->
+            <div class="rules-header-bar">
+              Spielbeschreibung – zum Schließen wieder auf das 📘-Icon tippen.
+            </div>
+
             <div class="rules-text">
               <h2>📘 SPIELBESCHREIBUNG – KIPP SMILEY</h2>
 
@@ -341,7 +363,7 @@
               <div class="rules-separator"></div>
 
               <h3>1. Start & persönliche Smiley-Hand-Kombination</h3>
-              <p>Nach dem Tippen auf Start erhältst du hier im Kombifeld eine zufallsgenerierte Smiley-Hand-Kombination – wie dieses Beispiel hier:</p>
+              <p>Alle Spieler tippen auf Start, und so erhält jeder hier im Kombifeld eine zufallsgenerierte Smiley-Hand-Kombination – wie dieses Beispiel hier:</p>
 
               <!-- Beispiel-Kombi im Regeltext: Rockerhand + Grinser -->
               <div class="rules-combo-example">
@@ -352,8 +374,7 @@
               <p>Sie besteht aus einem der zwölf Smiley-Köpfe und einer der vier möglichen Hände.</p>
               <p>Ziel ist es, den Würfel so zu kippen, dass der richtige Smiley-Kopf an der richtigen Hand zu liegen kommt –
               also genau die Kombination zeigt, die auf deinem Handy vorgegeben ist.</p>
-              <p>Zu Spielbeginn tippen alle Spieler auf „Start“.<br>
-              Der Button „Start“ wird danach zu „Reset“.<br>
+              <p>Nach Klick auf „Start“ wird der Button zu "Reset".<br>
               Mit „Reset“ kommst du jederzeit wieder in den Anfangszustand zurück.</p>
 
               <div class="rules-separator"></div>
@@ -368,17 +389,15 @@
 
               <h3>3. Prüfen, ob Kombi bereits aufliegt – ansagen – kippen</h3>
               <p>Wenn du an der Reihe bist, prüfst du zuerst, ob der Würfel deine Smiley-Hand-Kombi bereits zeigt.</p>
-              <p><strong>Wenn ja → „aufgelegt“:</strong></p>
-              <p>tippst du auf „aufgelegt“,<br>
+              <p>Wenn ja, tippst du auf „aufgelegt“:<br>
               du erhältst 1 Punkt geschenkt,<br>
               du bekommst automatisch eine neue Ziel-Kombi,<br>
               du bist trotzdem weiterhin am Zug.</p>
               <p>Dann führst du deinen Kippversuch durch:</p>
               <p>1. Sag eine Zahl von 1 bis 6 an.</p>
               <p>2. Kippe den Würfel genau so oft, wie du angesagt hast – im oder gegen den Uhrzeigersinn.</p>
-              <p>Nach deinem Kippvorgang prüfst du erneut:</p>
-              <p><strong>Wenn jetzt deine Kombi oben liegt → „erkippt“:</strong></p>
-              <p>du tippst auf „erkippt“,<br>
+              <p>Danach prüfst du erneut, welche Würfelfläche oben liegt.</p>
+              <p>Wenn jetzt deine Kombi siehst, tippst du auf „erkippt“:<br>
               du erhältst 3 Punkte,<br>
               du bekommst automatisch eine neue Ziel-Kombi,<br>
               dein Zug endet, der nächste Spieler ist dran.</p>
