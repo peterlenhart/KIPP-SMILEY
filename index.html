@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KIPP SMILEY</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: #121826;
+      color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 20px 12px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: 2.2rem;
+      letter-spacing: 0.05em;
+      font-weight: 800;
+    }
+
+    /* Kartenfeld – EIN Rechteck mit Gesicht + Hand */
+    .card-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      width: min(70vw, 280px);
+      height: min(70vw, 280px);
+      max-width: 320px;
+      max-height: 320px;
+      background: linear-gradient(145deg, #1f2838, #151b28);
+      border-radius: 28px;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      gap: 18px;
+    }
+
+    .card-inner {
+      width: 90%;
+      height: 80%;
+      background: #0f172a;
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    .smiley-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+    }
+
+    .smiley-face {
+      font-size: 4.2rem;
+      line-height: 1;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
+    }
+
+    .smiley-hand {
+      font-size: 3.2rem;
+      line-height: 1;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
+    }
+
+    /* Buttons Eigener Kipp / Mitspieler Kipp */
+    .buttons-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 20px;
+      padding: 14px 10px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.12s ease;
+    }
+
+    .btn-primary {
+      background: #10b981;
+      color: #022c22;
+      box-shadow: 0 8px 18px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-secondary {
+      background: #f59e0b;
+      color: #451a03;
+      box-shadow: 0 8px 18px rgba(245, 158, 11, 0.4);
+    }
+
+    .btn:active {
+      transform: translateY(1px) scale(0.98);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    }
+
+    /* Punkte / Kombi-Anzeige */
+    .score-area {
+      margin-top: 6px;
+      padding: 14px 14px 18px;
+      background: #0b1220;
+      border-radius: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .score-big {
+      font-size: 2.3rem;
+      font-weight: 900;
+      color: #e5ff4a;
+      text-align: left;
+      line-height: 1.1;
+    }
+
+    .score-label {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      opacity: 0.8;
+    }
+
+    .score-small-block {
+      text-align: right;
+    }
+
+    .score-small-main {
+      font-size: 1.4rem;
+      font-weight: 800;
+    }
+
+    .score-small-sub {
+      font-size: 0.75rem;
+      opacity: 0.8;
+      margin-top: 2px;
+    }
+
+    /* Reset-Button klein darunter */
+    .reset-row {
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .reset-btn {
+      border: none;
+      background: none;
+      color: #9ca3af;
+      font-size: 0.85rem;
+      text-decoration: underline;
+      cursor: pointer;
+      padding: 4px 8px;
+    }
+
+    .reset-btn:active {
+      color: #e5e7eb;
+    }
+
+    @media (min-width: 768px) {
+      .app {
+        max-width: 540px;
+      }
+
+      .card {
+        width: 260px;
+        height: 260px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>KIPP SMILEY</h1>
+
+    <div class="card-wrapper">
+      <div class="card">
+        <div class="card-inner">
+          <div class="smiley-row">
+            <div class="smiley-hand" id="smileyHand">🖐</div>
+            <div class="smiley-face" id="smileyFace">😀</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="buttons-row">
+      <button class="btn btn-primary" id="btnOwn">Eigener Kipp</button>
+      <button class="btn btn-secondary" id="btnOther">Mitspieler Kipp</button>
+    </div>
+
+    <div class="score-area">
+      <div>
+        <div class="score-label">Punkte</div>
+        <div class="score-big" id="pointsDisplay">0</div>
+      </div>
+      <div class="score-small-block">
+        <div class="score-label">Kombis</div>
+        <div class="score-small-main" id="combosDisplay">0 / 6</div>
+        <div class="score-small-sub" id="roundInfo">Runde läuft …</div>
+      </div>
+    </div>
+
+    <div class="reset-row">
+      <button class="reset-btn" id="btnReset">Runde zurücksetzen</button>
+    </div>
+  </div>
+
+  <script>
+    // 12 Gesichter – entsprechend deiner Beschreibung / Wünsche
+    // 1  Zlinka (Spiralen)
+    // 2  Grinser mit Zähnen, geschlossene Augen
+    // 3  Lächeln, Augen zu, rote Wangen
+    // 4  normaler Smiley
+    // 5  böse blickend (gelb)
+    // 6  Lacher mit Tränen
+    // 7  Herzen in den Augen
+    // 8  Schock (Ersatz 8)
+    // 9  Kuss (Ersatz 9)
+    // 10 Denker / Augen nach oben (Ersatz 10)
+    // 11 Igitt / Zähne
+    // 12 optional „cool“
+    const faces = [
+      "😵‍💫", // Zlinka
+      "😁",   // Grinser
+      "😊",   // Augen zu, rote Wangen
+      "🙂",   // normal
+      "😠",   // böse, gelb
+      "😂",   // Lacher
+      "😍",   // Herzen
+      "😲",   // Schock
+      "😚",   // Kuss
+      "🙄",   // Denker
+      "😬",   // Igitt / Zähne
+      "😉"    // Zwinker
+    ];
+
+    // 4 Handgesten, wie von dir festgelegt
+    const hands = ["🖐","🤞","🤟","👊"];
+
+    let points = 0;
+    let combos = 0;
+    const combosPerRound = 6;
+
+    const faceEl = document.getElementById("smileyFace");
+    const handEl = document.getElementById("smileyHand");
+    const pointsDisplay = document.getElementById("pointsDisplay");
+    const combosDisplay = document.getElementById("combosDisplay");
+    const roundInfo = document.getElementById("roundInfo");
+    const btnOwn = document.getElementById("btnOwn");
+    const btnOther = document.getElementById("btnOther");
+    const btnReset = document.getElementById("btnReset");
+
+    function randomInt(max) {
+      return Math.floor(Math.random() * max);
+    }
+
+    function newCombo() {
+      const f = faces[randomInt(faces.length)];
+      const h = hands[randomInt(hands.length)];
+      faceEl.textContent = f;
+      handEl.textContent = h;
+    }
+
+    function updateScoreDisplay() {
+      pointsDisplay.textContent = points;
+      combosDisplay.textContent = combos + " / " + combosPerRound;
+      if (combos >= combosPerRound) {
+        roundInfo.textContent = "KIPP STOPP – Runde voll!";
+      } else {
+        roundInfo.textContent = "Runde läuft …";
+      }
+    }
+
+    function handleKipp(pointsToAdd) {
+      if (combos >= combosPerRound) {
+        // Runde schon voll – optional trotzdem neue Kombi zulassen
+        newCombo();
+        return;
+      }
+      points += pointsToAdd;
+      combos += 1;
+      updateScoreDisplay();
+      newCombo();
+    }
+
+    btnOwn.addEventListener("click", () => {
+      handleKipp(3); // Eigener Kipp = 3 Punkte
+    });
+
+    btnOther.addEventListener("click", () => {
+      handleKipp(1); // Mitspieler Kipp = 1 Punkt
+    });
+
+    btnReset.addEventListener("click", () => {
+      points = 0;
+      combos = 0;
+      updateScoreDisplay();
+      newCombo();
+    });
+
+    // Start
+    updateScoreDisplay();
+    newCombo();
+  </script>
+</body>
+</html>
