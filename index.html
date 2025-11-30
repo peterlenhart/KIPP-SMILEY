@@ -277,11 +277,11 @@
       border-color: #16a34a;
     }
 
-    /* Reset (grau mit dunkelgrüner Umrandung) */
+    /* Reset: nur Outline + grüne Schrift, keine Füllung */
     .start-btn-start.reset-mode {
-      background: #e5e7eb;
-      color: #065f46;
-      border-color: #065f46;
+      background: transparent;
+      color: #22c55e;
+      border-color: #16a34a;
     }
 
     .start-btn-close { background: #ef4444; color: white; }
@@ -528,7 +528,7 @@
 
   <script>
     const faces = ["😉","😵‍💫","😁","😊","😠","😂","😍","😲","😚","🙄","😬","🙂"];
-    const hands = ["🖐","🤞","🤟","✊"]; // Faust passend zur Box
+    const hands = ["🖐","🤞","🤟","👊"]; // ursprüngliche Faust wieder hergestellt
 
     let points = 0;
     let gameStarted = false;
@@ -555,8 +555,19 @@
 
     function newCombo(){
       if(!gameStarted || gameWon) return;
+
       faceEl.textContent = faces[randomInt(faces.length)];
-      handEl.textContent = hands[randomInt(hands.length)];
+
+      const randomHand = hands[randomInt(hands.length)];
+      handEl.textContent = randomHand;
+
+      // Faust allein drehen (90° gegen den Uhrzeigersinn)
+      if(randomHand === "👊"){
+        handEl.style.transform = "rotate(-90deg)";
+      } else {
+        handEl.style.transform = "none";
+      }
+
       comboRow.style.display = "flex";
       cardMessage.innerHTML = "";
     }
@@ -565,6 +576,7 @@
       gameWon = true;
       comboRow.style.display = "flex";
       handEl.style.display = "none";
+      handEl.style.transform = "none";
       faceEl.textContent = "🤓";
       faceEl.style.fontSize = "6rem";
       cardMessage.innerHTML =
@@ -601,6 +613,7 @@
         cardMessage.innerHTML = "";
         comboRow.style.display = "flex";
         handEl.style.display = "inline-block";
+        handEl.style.transform = "none";
         faceEl.style.fontSize = "5.2rem";
         newCombo();
         btnStart.textContent = "Reset";
@@ -624,6 +637,7 @@
       points = 0;
       pointsDisplay.textContent = "0";
       handEl.style.display = "inline-block";
+      handEl.style.transform = "none";
       faceEl.textContent = "😀";
       faceEl.style.fontSize = "5.2rem";
       cardMessage.innerHTML =
