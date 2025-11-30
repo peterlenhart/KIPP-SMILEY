@@ -27,6 +27,23 @@
       font-size: 2rem;
       cursor: pointer;
       user-select: none;
+      z-index: 30;
+    }
+
+    /* 📘 Neues Icon für Spielbeschreibung */
+    .info-icon {
+      position: absolute;
+      top: 62px;           /* unter dem Hamburger-Menü */
+      right: 22px;
+      font-size: 1.7rem;
+      cursor: pointer;
+      z-index: 25;
+      opacity: 0.9;
+      user-select: none;
+    }
+
+    .info-icon:hover {
+      opacity: 1;
     }
 
     .menu-overlay {
@@ -50,9 +67,10 @@
       position: relative;
     }
 
+    /* Überschrift kleiner wie gewünscht */
     h1 {
       margin: 0 0 20px;
-      font-size: 2.4rem;
+      font-size: 1.9rem;     /* <— verkleinert */
       letter-spacing: 0.05em;
       font-weight: 800;
     }
@@ -70,11 +88,12 @@
       max-height: 380px;
       background: linear-gradient(145deg, #1f2838, #151b28);
       border-radius: 28px;
-      box-shadow: 0 14px 30px rgba(0,0,0,0.6);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 20px;
+      position: relative;
     }
 
     .card-inner {
@@ -111,7 +130,6 @@
       filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
     }
 
-    /* Starttext styling – größer, fetter */
     .card-message {
       font-size: 1.25rem;
       font-weight: 700;
@@ -121,7 +139,6 @@
       padding: 0 6px;
     }
 
-    /* Gewinntext groß, gelb, schwarz umrandet */
     .win-title {
       font-size: 2.4rem;
       font-weight: 900;
@@ -200,6 +217,9 @@
 
     <div class="hamburger" id="menuBtn">☰</div>
 
+    <!-- 📘 NEUES ICON: Spielbeschreibung -->
+    <div class="info-icon" id="infoIcon">📘</div>
+
     <div class="menu-overlay" id="menuOverlay">
       <div>
         <p><strong>MENÜ</strong></p>
@@ -220,9 +240,10 @@
             <div class="smiley-face" id="smileyFace">😀</div>
           </div>
 
+          <!-- ⭐ NEUER STARTTEXT -->
           <div class="card-message" id="cardMessage">
-            Spielregeln? Dann auf Menü oben rechts.<br>
-            Oder mit Start-Button gleich beginnen.
+            Spielbeschreibung? Dann aufs Icon in der Ecke oben rechts klicken.<br>
+            Gleich los spielen? Dann auf Start.
           </div>
 
         </div>
@@ -267,7 +288,6 @@
       if(!gameStarted || gameWon) return;
       faceEl.textContent = faces[randomInt(faces.length)];
       handEl.textContent = hands[randomInt(hands.length)];
-
       comboRow.style.display = "flex";
       cardMessage.innerHTML = "";
     }
@@ -276,10 +296,8 @@
       gameWon = true;
       comboRow.style.display = "flex";
       handEl.style.display = "none";
-
       faceEl.textContent = "🤓";
       faceEl.style.fontSize = "6rem";
-
       cardMessage.innerHTML =
         `<div class="win-title">GEWONNEN</div>
          <div class="win-sub">15-Punktegrenze erfolgreich überschritten.</div>`;
@@ -316,8 +334,8 @@
         pointsDisplay.textContent = "0";
         handEl.style.display = "inline-block";
         faceEl.style.fontSize = "5.2rem";
-        cardMessage.innerHTML = 
-          "Spielregeln? Dann auf Menü oben rechts.<br>Oder mit Start-Button gleich beginnen.";
+        cardMessage.innerHTML =
+          "Spielbeschreibung? Dann aufs Icon in der Ecke oben rechts klicken.<br>Gleich los spielen? Dann auf Start.";
         comboRow.style.display = "none";
         gameStarted = false;
         btnStart.textContent = "Start";
@@ -327,6 +345,12 @@
     document.getElementById("btnClose").onclick = () => {
       if(window.confirm("App wirklich schließen?")) window.close();
     };
+
+    // Noch ohne Funktion (du sagst später was es tun soll)
+    document.getElementById("infoIcon").onclick = () => {
+      alert("Spielbeschreibung folgt hier – Funktion wird später ergänzt.");
+    };
+
   </script>
 
 </body>
