@@ -270,7 +270,19 @@
       cursor: pointer;
     }
 
-    .start-btn-start { background: #22c55e; color: #022c22; }
+    /* Start = grün wie bisher */
+    .start-btn-start {
+      background: #22c55e;
+      color: #022c22;
+    }
+
+    /* Reset = hellgrau mit dunkelgrüner Umrandung */
+    .start-btn-reset {
+      background: #e5e7eb;          /* hellgrau */
+      color: #065f46;               /* dunkles Grün für Text */
+      border: 2px solid #065f46;    /* dunkelgrüne Umrandung */
+    }
+
     .start-btn-close { background: #ef4444; color: white; }
 
   </style>
@@ -366,7 +378,7 @@
               dass sich also genau die Kombination ergibt, die auf deinem Handy vorgegeben ist.</p>
               <p>Nach Klick auf Start wird der Button zu "Reset".<br>
               Damit kommt man jederzeit wieder in den Anfangszustand zurück.</p>
-              <p><em>Hinweis: Wenn du während deiner Partie etwas in der Spielbeschreibung nachlesen möchtest, kannst du jederzeit auf das 📘-Icon tippen. Die aktuell angezeigte Smiley-Hand-Kombination verschwindet dabei nur vorübergehend und ist nach dem Verlassen der Spielbeschreibung wieder da.</em></p>
+              <p><em>Wenn du während deiner Partie etwas in der Spielbeschreibung nachlesen möchtest, kannst du jederzeit auf das 📘-Icon tippen. Die gerade angezeigte Smiley-Hand-Kombination verschwindet dabei nur vorübergehend und ist wieder da, sobald du die Spielbeschreibung schließt.</em></p>
 
               <div class="rules-separator"></div>
 
@@ -463,10 +475,21 @@
 
     function randomInt(max){ return Math.floor(Math.random()*max); }
 
+    // Hand setzen + Faust drehen
+    function setHandSymbol(symbol){
+      handEl.textContent = symbol;
+      if(symbol === "👊"){
+        handEl.style.transform = "rotate(-90deg)";
+      } else {
+        handEl.style.transform = "none";
+      }
+    }
+
     function newCombo(){
       if(!gameStarted || gameWon) return;
       faceEl.textContent = faces[randomInt(faces.length)];
-      handEl.textContent = hands[randomInt(hands.length)];
+      const handSymbol = hands[randomInt(hands.length)];
+      setHandSymbol(handSymbol);
       comboRow.style.display = "flex";
       cardMessage.innerHTML = "";
     }
@@ -500,7 +523,9 @@
 
     btnStart.onclick = () => {
       if(rulesVisible) return; // während der Spielbeschreibung nicht starten/resetten
+
       if(!gameStarted){
+        // von Start -> Reset-Zustand
         gameStarted = true;
         gameWon = false;
         points = 0;
@@ -511,18 +536,27 @@
         faceEl.style.fontSize = "5.2rem";
         newCombo();
         btnStart.textContent = "Reset";
+        btnStart.classList.remove("start-btn-start");
+        btnStart.classList.add("start-btn-reset");
       } else {
+        // Sicherheitsabfrage vor Reset
+        const reallyReset = window.confirm("Möchtest du wirklich die Punkte und das gesamte Spiel zurücksetzen?");
+        if(!reallyReset) return;
+
         gameWon = false;
         gameStarted = false;
         points = 0;
         pointsDisplay.textContent = "0";
         handEl.style.display = "inline-block";
+        setHandSymbol("🖐");
         faceEl.textContent = "😀";
         faceEl.style.fontSize = "5.2rem";
         cardMessage.innerHTML =
           "Spielbeschreibung? Dann aufs Icon in der Ecke oben rechts klicken.<br>Gleich los spielen? Dann auf Start.";
         comboRow.style.display = "none";
         btnStart.textContent = "Start";
+        btnStart.classList.remove("start-btn-reset");
+        btnStart.classList.add("start-btn-start");
       }
     };
 
