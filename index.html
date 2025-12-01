@@ -361,6 +361,8 @@
       <div>
         <p><strong>MENÜ</strong></p>
         <p>Hier kannst du später Video & Beschreibung einfügen.</p>
+        <!-- NEU: PDF-Spielbeschreibung öffnen -->
+        <button id="pdfBtn" class="reset-btn cancel">Spielbeschreibung (PDF)</button>
         <button onclick="document.getElementById('menuOverlay').style.display='none'"
         class="reset-btn cancel">Schließen</button>
       </div>
@@ -551,8 +553,17 @@
     const resetCancel = document.getElementById("resetCancel");
     const resetConfirm = document.getElementById("resetConfirm");
 
+    // NEU: PDF-Button
+    const pdfBtn = document.getElementById("pdfBtn");
+
     document.getElementById("menuBtn").onclick = () =>
       document.getElementById("menuOverlay").style.display = "flex";
+
+    // PDF öffnen
+    pdfBtn.onclick = () => {
+      // Name muss mit deiner Datei übereinstimmen
+      window.open("KIPP_Smiley_Spielbeschreibung.pdf", "_blank");
+    };
 
     function randomInt(max){ return Math.floor(Math.random()*max); }
 
