@@ -30,7 +30,7 @@
       z-index: 30;
     }
 
-    /* 📘 Icon für Spielbeschreibung */
+    /* 📙 Icon für Spielanleitung */
     .info-icon {
       position: absolute;
       top: 62px;           /* unter dem Hamburger-Menü */
@@ -153,7 +153,7 @@
       padding: 0 6px;
     }
 
-    /* Scrollbereich für Spielbeschreibung im Kombifeld */
+    /* Scrollbereich für Spielanleitung im Kombifeld */
     .rules-container {
       display: none;
       width: 100%;
@@ -354,17 +354,17 @@
 
     <div class="hamburger" id="menuBtn">☰</div>
 
-    <!-- 📘 ICON: Spielbeschreibung -->
-    <div class="info-icon" id="infoIcon">📘</div>
+    <!-- 📙 ICON: Spielanleitung -->
+    <div class="info-icon" id="infoIcon">📙</div>
 
     <div class="menu-overlay" id="menuOverlay">
       <div>
         <p><strong>MENÜ</strong></p>
-        <p>Öffne hier die ausführliche Spielbeschreibung als PDF.</p>
+        <p>Öffne hier die ausführliche Spielanleitung als PDF.</p>
 
         <!-- 🔗 NEU: Button zum Öffnen des PDF -->
         <button onclick="openRulesPdf()" class="reset-btn confirm">
-          Spielbeschreibung (PDF)
+          Spielanleitung (PDF)
         </button>
 
         <br><br>
@@ -401,14 +401,14 @@
 
           <!-- Starttext -->
           <div class="card-message" id="cardMessage">
-          📙 = scrollbare Spielbeschreibung (empfohlen).<br>
-          ☰ = Pdf-Spielbeschreibung (downloaden–ausdrucken).
+          📙 = scrollbare Spielanleitung (empfohlen).<br>
+          ☰ = Pdf-Spielanleitung (downloaden–ausdrucken).
           </div>
 
-          <!-- Scrollbare Spielbeschreibung im Kombifeld -->
+          <!-- Scrollbare Spielanleitung im Kombifeld -->
           <div class="rules-container" id="rulesContainer">
             <div class="rules-text">
-              <h2>📘 SPIELBESCHREIBUNG – KIPP SMILEY</h2>
+              <h2>📙 SPIELANLEITUNG – KIPP SMILEY</h2>
 
               <div class="rules-separator"></div>
 
@@ -461,9 +461,9 @@
               dass sich also genau die Kombination ergibt, die auf deinem Handy vorgegeben ist.</p>
               <p>Nach Klick auf Start wird der Button zu "Reset".<br>
               Damit kommt man jederzeit wieder in den Anfangszustand zurück.</p>
-              <p><em>Hinweis: Wenn du während deiner Partie etwas in der Spielbeschreibung nachsehen möchtest, 
-              kannst du jederzeit auf das 📘-Icon tippen. Die angezeigte Smiley-Hand-Kombi verschwindet dabei 
-              nur vorübergehend und ist nach dem Schließen wieder vollständig da.</em></p>
+              <p><em>Hinweis: Wenn du während deiner Partie etwas in der Spielanleitung nachsehen möchtest, 
+              kannst du jederzeit auf das 📙-Icon tippen. Die angezeigte Smiley-Hand-Kombi verschwindet dabei 
+              nur vorübergehend und ist nach dem Schließen des Textes wieder da.</em></p>
 
               <div class="rules-separator"></div>
 
