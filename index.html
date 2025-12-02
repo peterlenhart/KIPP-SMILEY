@@ -118,7 +118,7 @@
       gap: 18px;
       padding: 10px;
       text-align: center;
-      overflow-y: hidden;
+      overflow: hidden; /* wichtig, nur innen scrollen */
       position: relative;
     }
 
@@ -149,7 +149,6 @@
       padding: 0 6px;
     }
 
-    /* scrollbare Spielanleitung */
     .rules-container {
       display: none;
       width: 100%;
@@ -192,6 +191,7 @@
       font-size: 2.4rem;
       font-weight: 900;
       color: #facc15;
+      text-shadow: 2px 2px 0 black;
       margin-top: -10px;
     }
 
@@ -279,10 +279,49 @@
     .reset-dialog {
       background: #0f172a;
       border-radius: 20px;
-      padding: 18px;
+      padding: 18px 18px 16px;
       width: min(80vw, 320px);
       border: 1px solid rgba(148,163,184,0.6);
       text-align: center;
+    }
+
+    .reset-title {
+      margin: 0 0 6px;
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .reset-text {
+      margin: 0 0 14px;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .reset-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .reset-btn {
+      flex: 1;
+      border-radius: 14px;
+      padding: 9px 6px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+    }
+
+    .reset-btn.cancel {
+      background: #111827;
+      color: #e5e7eb;
+      border: 1px solid #4b5563;
+    }
+
+    .reset-btn.confirm {
+      background: #f97316;
+      color: #451a03;
     }
   </style>
 </head>
@@ -295,13 +334,13 @@
 
   <div class="info-icon" id="infoIcon">📙</div>
 
-  <!-- ⭐ MENÜ -->
+  <!-- MENÜ -->
   <div class="menu-overlay" id="menuOverlay">
     <div>
       <p><strong>MENÜ</strong></p>
       <p>Öffne hier die ausführliche Spielanleitung als PDF.</p>
 
-      <!-- PDF öffnen -->
+      <!-- PDF im Browser öffnen -->
       <button onclick="openRulesPdf()" class="reset-btn confirm">
         Spielanleitung (PDF öffnen)
       </button>
@@ -309,16 +348,19 @@
       <br><br>
 
       <!-- PDF herunterladen -->
-      <button onclick="downloadRulesPdf()" class="reset-btn confirm">
+      <a href="KIPP_Smiley_Spielanleitung.PDF"
+         download
+         class="reset-btn confirm"
+         style="display:inline-block; text-decoration:none; text-align:center;">
         PDF herunterladen
-      </button>
+      </a>
 
       <br><br>
 
       <!-- Kontakt -->
       <p>
         Kontakt:<br>
-        Peter Lenhart – 
+        Peter Lenhart –
         <a href="mailto:office@p-lenhart.at"
            style="color:#93c5fd; text-decoration:underline;">
            office@p-lenhart.at
@@ -332,7 +374,6 @@
     </div>
   </div>
 
-  <!-- Reset -->
   <div class="reset-overlay" id="resetOverlay">
     <div class="reset-dialog">
       <p class="reset-title">Reset?</p>
@@ -363,15 +404,12 @@
           ☰ = PDF-Spielanleitung herunterladen.
         </div>
 
-        <!-- ⭐ SCROLLBARE SPIELANLEITUNG -->
+        <!-- Scrollbare Spielanleitung -->
         <div class="rules-container" id="rulesContainer">
           <div class="rules-text">
-
             <h2>📙 SPIELANLEITUNG – KIPP SMILEY</h2>
-            <div class="rules-separator"></div>
 
-            <!-- ✨ Hier wird dein kompletter Regeltext wiedergegeben -->
-            <!-- (Ich lasse diese Stelle unverändert, du hattest ihn schon.) -->
+            <div class="rules-separator"></div>
 
             <h3>1. KIPP-Box vorbereiten</h3>
             <p>Stellt die KIPP-Box in die Mitte des Tisches und legt die Kugel in das Loch des Boxbodens ein.</p>
@@ -379,24 +417,102 @@
             <div class="rules-separator"></div>
 
             <h3>2. Kartonrahmen auflegen</h3>
-            <p>Legt den Kartonrahmen mit den Smiley-Händen nach oben auf die umlaufende Auflagefläche der Box.</p>
+            <p>Legt den Kartonrahmen mit den Smiley-Händen nach oben auf die umlaufende Auflagefläche der Box.<br>
+            Der Rahmen kann beliebig gedreht aufgelegt werden – die Ausrichtung spielt keine Rolle.</p>
 
             <div class="rules-separator"></div>
 
             <h3>3. Würfel einlegen</h3>
-            <p>Eine Ecke des Würfels ist abgeschrägt – diese kommt zur Kugel.</p>
+            <p>Schaut euch jetzt den Würfel an: Eine Ecke des Würfels ist auffällig abgeschrägt.</p>
+            <p>Legt den Würfel mit dieser abgeschrägten Ecke an der Kugel anliegend in eine beliebige der vier Boxecken.</p>
+            <p>Wenn der Würfel richtig positioniert ist, könnt ihr ihn im oder gegen den Uhrzeigersinn rundherum kippen – immer eine Ecke weiter, von Ecke zu Ecke.<br>
+            Probiert das gleich aus.</p>
 
             <div class="rules-separator"></div>
 
             <h3>4. Würfel bestücken</h3>
-            <p>Drei Spieler stecken jeweils vier Smiley-Knöpfe, mit Wegschauen der anderen.</p>
+            <p>Ein beliebiger Spieler beginnt mit dem Stecken der ersten vier Smiley-Knöpfe, während die anderen Spieler wegschauen.</p>
+            <p>Nimm vier beliebige Smiley-Knöpfe und stecke sie willkürlich in die vier Löcher.<br>
+            Jeder Smiley-Knopf wird so gesteckt, dass seine Ausrichtung logisch zur danebenliegenden Hand passt.</p>
+            <p>Dann kippst du den Würfel einmal im Uhrzeigersinn weiter.</p>
+            <p>Der nächste Spieler steckt vier neue Smiley-Knöpfe in die nun obenliegende Würfelfläche und kippt den Würfel anschließend ebenfalls einmal im Uhrzeigersinn weiter.<br>
+            Die anderen Spieler schauen wieder weg.</p>
+            <p>Der dritte Spieler steckt die letzten vier Smiley-Knöpfe in die letzte leere Würfelfläche.</p>
+            <p>Jetzt ist der Würfel vollständig bestückt.</p>
 
             <div class="rules-separator"></div>
 
-            <h3>🎮 SPIELVERLAUF</h3>
-            <p>Start drücken → eigene Smiley-Hand-Kombination erhalten.</p>
+            <h3>🎮 SPIELBEGINN UND SPIELVERLAUF</h3>
 
-            <!-- (… usw – dein restlicher Regeltext bleibt genau so.) -->
+            <div class="rules-separator"></div>
+
+            <h3>1. Start & persönliche Smiley-Hand-Kombination</h3>
+            <p>Zu Spielbeginn tippen alle Spieler auf Start, und so erhält jeder hier im Kombifeld eine zufallsgenerierte Smiley-Hand-Kombination – wie dieses Beispiel hier:</p>
+
+            <div class="rules-combo-example">
+              <span class="rules-hand">🤟</span>
+              <span class="rules-face">😁</span>
+            </div>
+
+            <p>Sie besteht aus einem der zwölf Smiley-Köpfe und einer der vier möglichen Hände.</p>
+            <p>Ziel ist es, den Würfel so zu kippen, dass der richtige Smiley-Kopf an der richtigen Hand zu liegen kommt –
+            dass sich also genau die Kombination ergibt, die auf deinem Handy vorgegeben ist.</p>
+            <p>Nach Klick auf Start wird der Button zu "Reset".<br>
+            Damit kommt man jederzeit wieder in den Anfangszustand zurück.</p>
+            <p><em>Hinweis: Wenn du während deiner Partie etwas in der Spielanleitung nachsehen möchtest, 
+            kannst du jederzeit auf das 📙-Icon tippen. Die angezeigte Smiley-Hand-Kombi verschwindet dabei 
+            nur vorübergehend und ist nach dem Schließen des Textes wieder da.</em></p>
+
+            <div class="rules-separator"></div>
+
+            <h3>2. Reihenfolge, KIPP-START-Ritual</h3>
+            <p>Es wird reihum im Uhrzeigersinn gespielt. Ein beliebiger Spieler beginnt.<br>
+            Allerdings kann eine Kipp-Partie nur begonnen werden, indem man vorher das KIPP-START-Ritual vollzieht:</p>
+            <p>Jeder macht so überzeugend wie möglich seine in der App vorgegebene Smiley-Hand-Kombi nach.<br>
+            Dann geht’s los.</p>
+
+            <div class="rules-separator"></div>
+
+            <h3>3. Prüfen, ob Kombi bereits aufliegt – ansagen – kippen</h3>
+            <p>Wenn du an der Reihe bist, prüfst du zuerst, ob der Würfel deine Smiley-Hand-Kombi bereits zeigt.</p>
+            <p><strong>Wenn ja, tippst du auf „aufgelegt“:</strong><br>
+            du erhältst 1 Punkt geschenkt,<br>
+            du bekommst automatisch eine neue Ziel-Kombi,<br>
+            du bist trotzdem weiterhin am Zug.</p>
+            <p>Dann führst du deinen Kippversuch durch:</p>
+            <p>1. Sag eine Zahl von 1 bis 6 an.</p>
+            <p>2. Kippe den Würfel genau so oft, wie du angesagt hast – im oder gegen den Uhrzeigersinn.</p>
+            <p>Nach deinem Kippvorgang prüfst du erneut:</p>
+            <p><strong>Wenn jetzt deine Kombi zu sehen ist, tippst du auf „erkippt“:</strong><br>
+            du erhältst 3 Punkte,<br>
+            du bekommst automatisch eine neue Ziel-Kombi,<br>
+            dein Zug endet, der nächste Spieler ist dran.</p>
+            <p><strong>Wenn sich deine Kombi durch dein Kippen nicht ergeben hat:</strong></p>
+            <p>klickst du nichts an,<br>
+            deine Ziel-Kombi bleibt bestehen,<br>
+            der nächste Spieler ist an der Reihe.</p>
+
+            <div class="rules-separator"></div>
+
+            <h3>5. Gewinnen (ab 16 Punkte)</h3>
+            <p>Die App zählt alle Punkte automatisch.</p>
+            <p>Sobald ein Spieler 16 oder mehr Punkte erreicht, hat er gewonnen.</p>
+            <p>Die App zeigt ihm dann:</p>
+            <p>den Schlaumeier-Smiley 🤓<br>
+            den großen Schriftzug GEWONNEN<br>
+            und den Hinweis: „15-Punktegrenze erfolgreich überschritten.“</p>
+            <p>Damit ist die Runde beendet.</p>
+
+            <div class="rules-separator"></div>
+
+            <h3>6. Neue Runde starten</h3>
+            <p>Wenn ihr eine neue Runde spielen wollt:</p>
+            <p>1. Tippt auf allen Handys auf „Reset“ – die Punkte springen wieder auf 0.</p>
+            <p>2. Tippt dann auf „Start“ – jeder erhält erneut eine eigene, zufällige Smiley-Hand-Kombination.</p>
+            <p>Ihr könnt für eine neue Runde auch die Smiley-Knöpfe am Würfel neu umstecken.<br>
+            Mit 12 Knöpfen gibt es rund 479 Millionen verschiedene Steckkombinationen –<br>
+            niemand hat dann einen Vorteil, weil er sich Positionen gemerkt hat.</p>
+            <p>Vergesst vor jeder Partie das KIPP-START-Ritual nicht – sonst habt ihr kein Glück beim Kippen. 😉</p>
 
           </div>
         </div>
@@ -421,7 +537,6 @@
 </div>
 
 <script>
-
 const faces = ["😉","😵‍💫","😁","😊","😠","😂","😍","😲","😚","🙄","😬","🙂"];
 const hands = ["🖐","🤞","🤟","👊"];
 
@@ -443,21 +558,12 @@ const resetOverlay = document.getElementById("resetOverlay");
 const resetCancel = document.getElementById("resetCancel");
 const resetConfirm = document.getElementById("resetConfirm");
 
-// MENÜ öffnen
 document.getElementById("menuBtn").onclick = () =>
   document.getElementById("menuOverlay").style.display = "flex";
 
-// PDF öffnen
+// PDF im neuen Tab öffnen
 function openRulesPdf() {
   window.open('KIPP_Smiley_Spielanleitung.PDF', '_blank');
-}
-
-// PDF herunterladen
-function downloadRulesPdf() {
-  const link = document.createElement('a');
-  link.href = 'KIPP_Smiley_Spielanleitung.PDF';
-  link.download = 'KIPP_Smiley_Spielanleitung.pdf';
-  link.click();
 }
 
 function randomInt(max){ return Math.floor(Math.random()*max); }
@@ -470,7 +576,11 @@ function newCombo(){
   const randomHand = hands[randomInt(hands.length)];
   handEl.textContent = randomHand;
 
-  handEl.style.transform = (randomHand === "👊") ? "rotate(-90deg)" : "none";
+  if(randomHand === "👊"){
+    handEl.style.transform = "rotate(-90deg)";
+  } else {
+    handEl.style.transform = "none";
+  }
 
   comboRow.style.display = "flex";
   cardMessage.innerHTML = "";
@@ -480,6 +590,7 @@ function showWinScreen(){
   gameWon = true;
   comboRow.style.display = "flex";
   handEl.style.display = "none";
+  handEl.style.transform = "none";
   faceEl.textContent = "🤓";
   faceEl.style.fontSize = "6rem";
   cardMessage.innerHTML =
@@ -505,53 +616,58 @@ document.getElementById("btnOther").onclick = () => {
 
 // Start / Reset
 btnStart.onclick = () => {
-  if(rulesVisible) return;
+  if(rulesVisible) return; // während der Spielanleitung nicht starten/resetten
 
   if(!gameStarted){
+    // Start
     gameStarted = true;
+    gameWon = false;
     points = 0;
     pointsDisplay.textContent = "0";
+    cardMessage.innerHTML = "";
     comboRow.style.display = "flex";
+    handEl.style.display = "inline-block";
+    handEl.style.transform = "none";
+    faceEl.style.fontSize = "5.2rem";
     newCombo();
     btnStart.textContent = "Reset";
     btnStart.classList.add("reset-mode");
-    cardMessage.innerHTML = "";
-
   } else {
+    // Reset-Dialog anzeigen
     resetOverlay.style.display = "flex";
   }
 };
 
+// Reset-Dialog: Nein
 resetCancel.onclick = () => {
   resetOverlay.style.display = "none";
 };
 
+// Reset-Dialog: Ja
 resetConfirm.onclick = () => {
   resetOverlay.style.display = "none";
-  gameStarted = false;
   gameWon = false;
+  gameStarted = false;
   points = 0;
   pointsDisplay.textContent = "0";
-
-  comboRow.style.display = "none";
+  handEl.style.display = "inline-block";
+  handEl.style.transform = "none";
   faceEl.textContent = "😀";
   faceEl.style.fontSize = "5.2rem";
-
   cardMessage.innerHTML =
     "📙 = Scrollbare Spielanleitung.<br><br>☰ = PDF-Spielanleitung herunterladen.";
-
   cardMessage.style.display = "block";
-
+  comboRow.style.display = "none";
   btnStart.textContent = "Start";
   btnStart.classList.remove("reset-mode");
 };
 
-// App schließen
+// schließen-Button für die App
 document.getElementById("btnClose").onclick = () => {
   if(window.confirm("App wirklich schließen?")) window.close();
 };
 
-// Scrollbare Anleitung ein/ausblenden
+// Spielanleitung im Kombifeld ein-/ausblenden
 infoIcon.onclick = () => {
   rulesVisible = !rulesVisible;
 
@@ -560,7 +676,6 @@ infoIcon.onclick = () => {
     comboRow.style.display = "none";
     cardMessage.style.display = "none";
     rulesContainer.style.display = "block";
-
   } else {
     infoIcon.classList.remove("show-close");
     rulesContainer.style.display = "none";
@@ -569,16 +684,14 @@ infoIcon.onclick = () => {
       cardMessage.innerHTML = "";
       cardMessage.style.display = "block";
       comboRow.style.display = "flex";
-
     } else {
-      comboRow.style.display = "none";
       cardMessage.innerHTML =
         "📙 = Scrollbare Spielanleitung.<br><br>☰ = PDF-Spielanleitung herunterladen.";
       cardMessage.style.display = "block";
+      comboRow.style.display = "none";
     }
   }
 };
-
 </script>
 
 </body>
