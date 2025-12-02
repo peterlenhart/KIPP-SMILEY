@@ -323,6 +323,56 @@
       background: #f97316;
       color: #451a03;
     }
+
+    /* Neues, professionelles Menü-Design */
+    .menu-box {
+      background: #0f172a;
+      padding: 22px 18px;
+      border-radius: 18px;
+      width: min(85vw, 340px);
+      text-align: left;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .menu-title {
+      margin: 0 0 14px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      text-align: left;
+    }
+
+    .menu-item {
+      width: 100%;
+      background: #1e293b;
+      color: #f1f5f9;
+      border: none;
+      padding: 12px 10px;
+      margin-bottom: 12px;
+      border-radius: 10px;
+      font-size: 0.98rem;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .menu-item:hover {
+      background: #334155;
+    }
+
+    .menu-close-btn {
+      width: 100%;
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 12px 10px;
+      border-radius: 10px;
+      font-size: 1rem;
+      margin-top: 6px;
+      cursor: pointer;
+    }
+
+    .menu-close-btn:hover {
+      background: #dc2626;
+    }
   </style>
 </head>
 
@@ -334,42 +384,25 @@
 
   <div class="info-icon" id="infoIcon">📙</div>
 
-  <!-- MENÜ -->
+  <!-- Neues Menü -->
   <div class="menu-overlay" id="menuOverlay">
-    <div>
-      <p><strong>MENÜ</strong></p>
-      <p>Öffne hier die ausführliche Spielanleitung als PDF.</p>
+    <div class="menu-box">
+      <h3 class="menu-title">Menü</h3>
 
-      <!-- PDF im Browser öffnen -->
-      <button onclick="openRulesPdf()" class="reset-btn confirm">
-        Spielanleitung (PDF öffnen)
+      <button onclick="openRulesScroll()" class="menu-item">
+        📙 Scrollbare Spielanleitung
       </button>
 
-      <br><br>
+      <button onclick="openRulesPdf()" class="menu-item">
+        ⬇️ PDF herunterladen
+      </button>
 
-      <!-- PDF herunterladen -->
-      <a href="KIPP_Smiley_Spielanleitung.PDF"
-         download
-         class="reset-btn confirm"
-         style="display:inline-block; text-decoration:none; text-align:center;">
-        PDF herunterladen
-      </a>
+      <button onclick="window.location.href='mailto:office@p-lenhart.at'" class="menu-item">
+        Kontakt: Peter Lenhart
+      </button>
 
-      <br><br>
-
-      <!-- Kontakt -->
-      <p>
-        Kontakt:<br>
-        Peter Lenhart –
-        <a href="mailto:office@p-lenhart.at"
-           style="color:#93c5fd; text-decoration:underline;">
-           office@p-lenhart.at
-        </a>
-      </p>
-
-      <button onclick="document.getElementById('menuOverlay').style.display='none'"
-      class="reset-btn cancel">
-        Schließen
+      <button onclick="closeMenu()" class="menu-close-btn">
+        schließen
       </button>
     </div>
   </div>
@@ -561,7 +594,19 @@ const resetConfirm = document.getElementById("resetConfirm");
 document.getElementById("menuBtn").onclick = () =>
   document.getElementById("menuOverlay").style.display = "flex";
 
-// PDF im neuen Tab öffnen
+/* Menü-Helfer */
+function closeMenu() {
+  document.getElementById("menuOverlay").style.display = "none";
+}
+
+function openRulesScroll() {
+  closeMenu();
+  // Öffnet direkt die scrollbare Spielanleitung
+  if (!rulesVisible) {
+    infoIcon.click();
+  }
+}
+
 function openRulesPdf() {
   window.open('KIPP_Smiley_Spielanleitung.PDF?v=2', '_blank');
 }
